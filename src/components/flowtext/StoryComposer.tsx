@@ -375,8 +375,12 @@ export function StoryComposer({ userId, onClose }: { userId: string; onClose: ()
         </div>
       </div>
 
-      <div className="mx-auto w-full max-w-md pt-2">
+      <div
+        className="mx-auto w-full max-w-md pt-2"
+        style={{ paddingBottom: "var(--osk-height, 0px)" }}
+      >
         <button
+          id="story-share-button"
           onClick={() => share.mutate()}
           disabled={share.isPending}
           className="font-display w-full rounded-full bg-bone py-3 text-sm font-semibold text-ink disabled:opacity-60"
@@ -384,6 +388,7 @@ export function StoryComposer({ userId, onClose }: { userId: string; onClose: ()
           {share.isPending ? "Sharing…" : "Share to Story"}
         </button>
       </div>
+
     </div>
   );
 }
