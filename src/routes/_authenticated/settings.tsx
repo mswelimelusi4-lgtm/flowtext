@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { createFileRoute, useNavigate, useRouteContext } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate, useRouteContext } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { AppShell, RailCard, EmptyNote } from "@/components/flowtext/AppShell";
 import { UserAvatar } from "@/components/flowtext/UserAvatar";
 import { getProfile, updateProfile } from "@/lib/api";
 import { uploadMedia } from "@/lib/media";
+import { RELATIONSHIP_STATUSES } from "@/lib/profile";
 
 export const Route = createFileRoute("/_authenticated/settings")({
   head: () => ({
@@ -120,12 +121,33 @@ function SettingsPage() {
     <AppShell
       userId={userId}
       rail={
-        <RailCard title="Privacy">
-          <EmptyNote>
-            Each post gets its own audience — public, friends-only or only me — right in the compose
-            box.
-          </EmptyNote>
-        </RailCard>
+        <>
+          <RailCard title="Privacy">
+            <EmptyNote>
+              Each post gets its own audience — public, friends-only or only me — right in the
+              compose box.
+            </EmptyNote>
+          </RailCard>
+          <RailCard title="More about you" tone="plain">
+            <EmptyNote>
+              Jobs, schools, places lived, family, contact info and life events live on your About
+              page.
+            </EmptyNote>
+            <Link
+              to="/about/$userId"
+              params={{ userId }}
+              className="font-display mt-2 block text-[11px] font-semibold text-clay-deep"
+            >
+              Edit About →
+            </Link>
+            <Link
+              to="/account"
+              className="font-display mt-1 block text-[11px] font-semibold text-clay-deep"
+            >
+              Account settings →
+            </Link>
+          </RailCard>
+        </>
       }
     >
       <h1 className="font-display text-2xl font-bold">Profile settings</h1>
@@ -206,6 +228,80 @@ function SettingsPage() {
           value={form.education}
           onChange={(value) => setForm((c) => ({ ...c, education: value }))}
         />
+        <Field
+          label="Current city"
+          value={form.current_city}
+          onChange={(value) => setForm((c) => ({ ...c, current_city: value }))}
+        />
+        <Field
+          label="Hometown"
+          value={form.hometown}
+          onChange={(value) => setForm((c) => ({ ...c, hometown: value }))}
+        />
+        <div>
+          <p className="font-display text-[11px] font-semibold tracking-wide text-ink-soft uppercase">
+            Relationship status
+          </p>
+          <div className="font-display mt-1 flex flex-wrap gap-1 text-xs font-semibold">
+            {RELATIONSHIP_STATUSES.map((status) => (
+              <button
+                key={status}
+                onClick={() =>
+                  setForm((c) => ({
+                    ...c,
+                    relationship_status: c.relationship_status === status ? "" : status,
+                  }))
+                }
+                className={
+                  form.relationship_status === status
+                    ? "rounded-full bg-teal px-3 py-1.5 text-bone"
+                    : "rounded-full px-3 py-1.5 text-ink-soft ring-1 ring-ink/10 hover:bg-bone-soft"
+                }
+              >
+                {status}
+              </button>
+            ))}
+          </div>
+        </div>
+        <Field
+          label="With (partner's name, optional)"
+          value={form.partner_name}
+          onChange={(value) => setForm((c) => ({ ...c, partner_name: value }))}
+        />
+        <Field
+          label="Website or social link"
+          value={form.website}
+          onChange={(value) => setForm((c) => ({ ...c, website: value }))}
+        />
+        <Field
+          label="Interests"
+          textarea
+          value={form.interests}
+          onChange={(value) => setForm((c) => ({ ...c, interests: value }))}
+        />
+        <Field
+          label="Favourite quotes"
+          textarea
+          value={form.favorite_quotes}
+          onChange={(value) => setForm((c) => ({ ...c, favorite_quotes: value }))}
+        />
+        <Field
+          label="More about you"
+          textarea
+          value={form.about_extra}
+          onChange={(value) => setForm((c) => ({ ...c, about_extra: value }))}
+        />
+        <label className="flex items-center justify-between gap-3 rounded-xl bg-bone-soft/70 px-3 py-2">
+          <span className="text-sm">Share new profile pictures to the feed</span>
+          <input
+            type="checkbox"
+            checked={form.share_avatar_updates}
+            onChange={(event) =>
+              setForm((c) => ({ ...c, share_avatar_updates: event.target.checked }))
+            }
+            className="size-4"
+          />
+        </label>
 
         <button
           onClick={() => save.mutate()}
