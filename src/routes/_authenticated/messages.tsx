@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { createFileRoute, useRouteContext } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { clearThreadNotifications } from "@/lib/notifications";
 import { AppShell, EmptyNote, RailCard } from "@/components/flowtext/AppShell";
 import { ChatPanel, GroupInfoPanel, InboxPanel } from "@/components/flowtext/Messenger";
 import { uploadMedia } from "@/lib/media";
