@@ -36,8 +36,11 @@ export type StoryGroup = {
   stories: Story[];
   /** true when every story of this author has already been seen by me */
   seen: boolean;
+  /** index of the first story I have not seen yet (0 when all unseen) */
+  firstUnseen: number;
   latestAt: string;
 };
+
 
 const STORY_COLS =
   "id, author_id, kind, media_url, caption, background, text_color, overlays, drawing, duration_ms, visibility, created_at, expires_at, author:profiles!stories_author_id_fkey(id, display_name, avatar_url)";
