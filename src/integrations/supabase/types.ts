@@ -14,6 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
+      blocked_users: {
+        Row: {
+          blocked_id: string
+          blocker_id: string
+          created_at: string
+          id: string
+        }
+        Insert: {
+          blocked_id: string
+          blocker_id: string
+          created_at?: string
+          id?: string
+        }
+        Update: {
+          blocked_id?: string
+          blocker_id?: string
+          created_at?: string
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "blocked_users_blocked_id_fkey"
+            columns: ["blocked_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "blocked_users_blocker_id_fkey"
+            columns: ["blocker_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       comments: {
         Row: {
           author_id: string
@@ -59,6 +95,45 @@ export type Database = {
             columns: ["post_id"]
             isOneToOne: false
             referencedRelation: "posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      family_members: {
+        Row: {
+          created_at: string
+          id: string
+          relationship: string
+          relative_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          relationship: string
+          relative_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          relationship?: string
+          relative_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "family_members_relative_id_fkey"
+            columns: ["relative_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "family_members_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]
@@ -209,6 +284,44 @@ export type Database = {
           },
         ]
       }
+      life_events: {
+        Row: {
+          created_at: string
+          description: string | null
+          event_date: string
+          id: string
+          photo_url: string | null
+          title: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          event_date: string
+          id?: string
+          photo_url?: string | null
+          title: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          event_date?: string
+          id?: string
+          photo_url?: string | null
+          title?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "life_events_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       messages: {
         Row: {
           content: string
@@ -247,6 +360,44 @@ export type Database = {
             columns: ["thread_id"]
             isOneToOne: false
             referencedRelation: "threads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notification_prefs: {
+        Row: {
+          created_at: string
+          on_comment: boolean
+          on_friend_request: boolean
+          on_like: boolean
+          on_message: boolean
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          on_comment?: boolean
+          on_friend_request?: boolean
+          on_like?: boolean
+          on_message?: boolean
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          on_comment?: boolean
+          on_friend_request?: boolean
+          on_like?: boolean
+          on_message?: boolean
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notification_prefs_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]
@@ -428,41 +579,250 @@ export type Database = {
           },
         ]
       }
+      profile_experiences: {
+        Row: {
+          created_at: string
+          degree: string | null
+          description: string | null
+          end_date: string | null
+          id: string
+          is_current: boolean
+          kind: string
+          organization: string
+          start_date: string | null
+          title: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          degree?: string | null
+          description?: string | null
+          end_date?: string | null
+          id?: string
+          is_current?: boolean
+          kind?: string
+          organization: string
+          start_date?: string | null
+          title?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          degree?: string | null
+          description?: string | null
+          end_date?: string | null
+          id?: string
+          is_current?: boolean
+          kind?: string
+          organization?: string
+          start_date?: string | null
+          title?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profile_experiences_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profile_photos: {
+        Row: {
+          created_at: string
+          id: string
+          kind: string
+          url: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          kind?: string
+          url: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          kind?: string
+          url?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profile_photos_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profile_places: {
+        Row: {
+          created_at: string
+          id: string
+          kind: string
+          name: string
+          user_id: string
+          year: number | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          kind?: string
+          name: string
+          user_id: string
+          year?: number | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          kind?: string
+          name?: string
+          user_id?: string
+          year?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profile_places_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profile_private: {
+        Row: {
+          birthday: string | null
+          contact_email: string | null
+          created_at: string
+          gender: string | null
+          languages: string[]
+          phone: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          birthday?: string | null
+          contact_email?: string | null
+          created_at?: string
+          gender?: string | null
+          languages?: string[]
+          phone?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          birthday?: string | null
+          contact_email?: string | null
+          created_at?: string
+          gender?: string | null
+          languages?: string[]
+          phone?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profile_private_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
+          about_extra: string | null
           avatar_url: string | null
           bio: string | null
           cover_url: string | null
           created_at: string
+          current_city: string | null
+          deactivated_at: string | null
+          default_post_visibility: string
           display_name: string
           education: string | null
+          favorite_quotes: string | null
+          friend_request_scope: string
+          friends_list_visibility: string
+          hometown: string | null
           id: string
+          interests: string | null
           location: string | null
+          lookup_by_email: boolean
+          lookup_by_phone: boolean
+          partner_name: string | null
+          relationship_status: string | null
+          share_avatar_updates: boolean
+          two_factor_enabled: boolean
           updated_at: string
+          website: string | null
           work: string | null
         }
         Insert: {
+          about_extra?: string | null
           avatar_url?: string | null
           bio?: string | null
           cover_url?: string | null
           created_at?: string
+          current_city?: string | null
+          deactivated_at?: string | null
+          default_post_visibility?: string
           display_name?: string
           education?: string | null
+          favorite_quotes?: string | null
+          friend_request_scope?: string
+          friends_list_visibility?: string
+          hometown?: string | null
           id: string
+          interests?: string | null
           location?: string | null
+          lookup_by_email?: boolean
+          lookup_by_phone?: boolean
+          partner_name?: string | null
+          relationship_status?: string | null
+          share_avatar_updates?: boolean
+          two_factor_enabled?: boolean
           updated_at?: string
+          website?: string | null
           work?: string | null
         }
         Update: {
+          about_extra?: string | null
           avatar_url?: string | null
           bio?: string | null
           cover_url?: string | null
           created_at?: string
+          current_city?: string | null
+          deactivated_at?: string | null
+          default_post_visibility?: string
           display_name?: string
           education?: string | null
+          favorite_quotes?: string | null
+          friend_request_scope?: string
+          friends_list_visibility?: string
+          hometown?: string | null
           id?: string
+          interests?: string | null
           location?: string | null
+          lookup_by_email?: boolean
+          lookup_by_phone?: boolean
+          partner_name?: string | null
+          relationship_status?: string | null
+          share_avatar_updates?: boolean
+          two_factor_enabled?: boolean
           updated_at?: string
+          website?: string | null
           work?: string | null
         }
         Relationships: []
@@ -578,6 +938,44 @@ export type Database = {
           {
             foreignKeyName: "threads_created_by_fkey"
             columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_devices: {
+        Row: {
+          created_at: string
+          id: string
+          label: string
+          last_seen_at: string
+          revoked_at: string | null
+          user_agent: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          label?: string
+          last_seen_at?: string
+          revoked_at?: string | null
+          user_agent?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          label?: string
+          last_seen_at?: string
+          revoked_at?: string | null
+          user_agent?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_devices_user_id_fkey"
+            columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
