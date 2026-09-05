@@ -134,6 +134,12 @@ export function AppShell({
               >
                 Profile settings
               </Link>
+              <Link
+                to="/account"
+                className="flex rounded-xl px-3 py-2 text-sm font-medium text-ink-soft hover:bg-bone-soft"
+              >
+                Account settings
+              </Link>
             </li>
           </ul>
         </nav>
