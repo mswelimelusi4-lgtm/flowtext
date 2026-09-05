@@ -4,9 +4,77 @@ import { Plus } from "lucide-react";
 import { UserAvatar } from "./UserAvatar";
 import { StoryComposer } from "./StoryComposer";
 import { StoryViewer } from "./StoryViewer";
-import { fetchStoryTray, subscribeToStories } from "@/lib/stories";
+import { fetchStoryTray, subscribeToStories, type Story, type StoryGroup } from "@/lib/stories";
 import { getProfile } from "@/lib/api";
 import { cn } from "@/lib/utils";
+
+/** Card face: shows the story's actual content, not the profile picture. */
+function StoryThumb({ story, label }: { story: Story; label: string }) {
+  if (story.kind === "photo" && story.media_url) {
+    return <img src={story.media_url} alt={label} className="absolute inset-0 size-full object-cover" />;
+  }
+  if (story.kind === "video" && story.media_url) {
+    return (
+      <video
+        src={story.media_url}
+        muted
+        playsInline
+        preload="metadata"
+        className="absolute inset-0 size-full object-cover"
+      />
+    );
+  }
+  return (
+    <span
+      className="absolute inset-0 grid place-items-center p-2 text-center text-[11px] font-semibold leading-snug"
+      style={{ background: story.background, color: story.text_color }}
+    >
+      <span className="line-clamp-4">{story.caption ?? ""}</span>
+    </span>
+  );
+}
+
+function StoryCard({
+  group,
+  seen,
+  onOpen,
+  label,
+}: {
+  group: StoryGroup;
+  seen: boolean;
+  onOpen: () => void;
+  label: string;
+}) {
+  const latest = group.stories[group.stories.length - 1];
+  return (
+    <button
+      onClick={onOpen}
+      aria-label={label}
+      className={cn(
+        "relative h-36 w-24 shrink-0 overflow-hidden rounded-xl ring-1 ring-ink/10 transition-transform hover:scale-[1.02]",
+        !group.stories.length && "bg-ink/5",
+      )}
+    >
+      {latest && <StoryThumb story={latest} label={label} />}
+      <span className="absolute inset-0 bg-gradient-to-b from-ink/25 via-transparent to-ink/45" />
+      <span
+        className={cn(
+          "absolute left-2 top-2 block rounded-full p-[2px]",
+          seen ? "bg-bone/70" : "bg-gradient-to-br from-clay via-amber to-teal",
+        )}
+      >
+        <UserAvatar
+          name={group.author.display_name}
+          src={group.author.avatar_url}
+          className="size-7 ring-2 ring-bone"
+        />
+      </span>
+      <span className="font-display absolute inset-x-1.5 bottom-1.5 truncate text-left text-[11px] font-semibold text-bone drop-shadow">
+        {label}
+      </span>
+    </button>
+  );
+}
 
 export function StoriesTray({ userId }: { userId: string }) {
   const queryClient = useQueryClient();
