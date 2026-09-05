@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useId, useRef, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { createPost, getProfile } from "@/lib/api";
@@ -23,6 +23,7 @@ export function Composer({
 }) {
   const queryClient = useQueryClient();
   const fileInput = useRef<HTMLInputElement>(null);
+  const postButtonId = useId();
   const [content, setContent] = useState("");
   const [visibility, setVisibility] = useState<"public" | "friends" | "private">("public");
   const [media, setMedia] = useState<{ url: string; kind: "image" | "video" }[]>([]);
@@ -81,6 +82,8 @@ export function Composer({
             value={content}
             onChange={(event) => setContent(event.target.value)}
             rows={2}
+            data-osk-action="Post"
+            data-osk-submit={postButtonId}
             placeholder={groupId ? "Share something with the group…" : "Share something to the current…"}
             className="w-full resize-none rounded-xl bg-bone px-3 py-2 text-sm text-ink ring-1 ring-ink/10 outline-none placeholder:text-ink-soft/60 focus:ring-teal/40"
           />
@@ -143,6 +146,7 @@ export function Composer({
             )}
 
             <button
+              id={postButtonId}
               onClick={() => publish.mutate()}
               disabled={!canPost}
               className="font-display ml-auto rounded-full px-4 py-1.5 text-sm font-semibold text-teal ring-1 ring-teal/30 hover:bg-teal hover:text-bone disabled:opacity-40 disabled:hover:bg-transparent disabled:hover:text-teal"
