@@ -1,4 +1,4 @@
-import { useId, useRef, useState } from "react";
+import { useId, useRef, useState, useEffect } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { createPost, getProfile } from "@/lib/api";
@@ -30,6 +30,13 @@ export function Composer({
   const [uploading, setUploading] = useState(false);
 
   const { data: me } = useQuery({ queryKey: ["profile", userId], queryFn: () => getProfile(userId) });
+
+  useEffect(() => {
+    const preferred = me?.default_post_visibility;
+    if (preferred === "public" || preferred === "friends" || preferred === "private") {
+      setVisibility(preferred);
+    }
+  }, [me?.default_post_visibility]);
 
   const publish = useMutation({
     mutationFn: () =>
