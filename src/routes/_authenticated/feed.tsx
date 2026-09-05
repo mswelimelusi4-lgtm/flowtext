@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { AppShell, EmptyNote, RailCard } from "@/components/flowtext/AppShell";
 import { Composer } from "@/components/flowtext/Composer";
 import { PostCard } from "@/components/flowtext/PostCard";
+import { StoriesTray } from "@/components/flowtext/StoriesTray";
 import { UserAvatar } from "@/components/flowtext/UserAvatar";
 import {
   PAGE_SIZE,
@@ -51,6 +52,7 @@ function FeedPage() {
 
   return (
     <AppShell userId={userId} rail={<FeedRail userId={userId} />}>
+      <StoriesTray userId={userId} />
       <Composer userId={userId} />
 
       <div className="font-display mt-5 flex items-center gap-2">

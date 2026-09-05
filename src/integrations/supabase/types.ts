@@ -984,6 +984,128 @@ export type Database = {
           },
         ]
       }
+      stories: {
+        Row: {
+          author_id: string
+          background: string
+          caption: string | null
+          created_at: string
+          drawing: string | null
+          duration_ms: number
+          expires_at: string
+          id: string
+          kind: string
+          media_url: string | null
+          overlays: Json
+          text_color: string
+          visibility: string
+        }
+        Insert: {
+          author_id: string
+          background?: string
+          caption?: string | null
+          created_at?: string
+          drawing?: string | null
+          duration_ms?: number
+          expires_at?: string
+          id?: string
+          kind?: string
+          media_url?: string | null
+          overlays?: Json
+          text_color?: string
+          visibility?: string
+        }
+        Update: {
+          author_id?: string
+          background?: string
+          caption?: string | null
+          created_at?: string
+          drawing?: string | null
+          duration_ms?: number
+          expires_at?: string
+          id?: string
+          kind?: string
+          media_url?: string | null
+          overlays?: Json
+          text_color?: string
+          visibility?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stories_author_id_fkey"
+            columns: ["author_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      story_excludes: {
+        Row: {
+          created_at: string
+          story_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          story_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          story_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "story_excludes_story_id_fkey"
+            columns: ["story_id"]
+            isOneToOne: false
+            referencedRelation: "stories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "story_excludes_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      story_views: {
+        Row: {
+          created_at: string
+          story_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          story_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          story_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "story_views_story_id_fkey"
+            columns: ["story_id"]
+            isOneToOne: false
+            referencedRelation: "stories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "story_views_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       thread_participants: {
         Row: {
           archived_at: string | null
@@ -1110,7 +1232,9 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      are_friends: { Args: { a: string; b: string }; Returns: boolean }
       can_see_message: { Args: { mid: string }; Returns: boolean }
+      can_see_story: { Args: { sid: string }; Returns: boolean }
       emit_notification: {
         Args: {
           _actor_id: string
