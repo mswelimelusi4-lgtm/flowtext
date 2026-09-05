@@ -57,13 +57,23 @@ export type PrivateInfo = {
   languages: string[];
 };
 
+export type DeliveryMethod = "push" | "email" | "none";
+
 export type NotificationPrefs = {
   user_id: string;
   on_comment: boolean;
   on_like: boolean;
   on_friend_request: boolean;
   on_message: boolean;
+  on_group_activity: boolean;
+  on_reminder: boolean;
+  delivery_like: DeliveryMethod;
+  delivery_comment: DeliveryMethod;
+  delivery_friend_request: DeliveryMethod;
+  delivery_message: DeliveryMethod;
+  delivery_group_activity: DeliveryMethod;
 };
+
 
 export type Device = {
   id: string;
