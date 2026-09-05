@@ -40,7 +40,7 @@ function GroupsPage() {
     queryFn: () => fetchGroupMemberships(userId),
   });
 
-  const mine = new Set(memberships.data ?? []);
+  const mine = new Set((memberships.data ?? []).map((m) => m.group_id));
 
   const create = useMutation({
     mutationFn: () =>

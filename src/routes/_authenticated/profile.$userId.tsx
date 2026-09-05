@@ -219,7 +219,7 @@ function ProfilePage() {
   );
 }
 
-function Detail({ label, value }: { label: string; value?: string | null }) {
+function Detail({ label, value }: { label: string; value?: string | null | undefined }) {
   if (!value) return null;
   return (
     <div className="flex gap-2">

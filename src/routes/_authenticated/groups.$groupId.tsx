@@ -41,7 +41,7 @@ function GroupPage() {
     queryKey: ["memberships", userId],
     queryFn: () => fetchGroupMemberships(userId),
   });
-  const joined = (memberships.data ?? []).includes(groupId);
+  const joined = (memberships.data ?? []).some((m) => m.group_id === groupId);
 
   const feed = useInfiniteQuery({
     queryKey: ["group-feed", groupId],
@@ -70,14 +70,14 @@ function GroupPage() {
           {(members.data ?? []).length === 0 && <EmptyNote>No members yet.</EmptyNote>}
           <ul className="space-y-2">
             {(members.data ?? []).slice(0, 10).map((member) => (
-              <li key={member.id} className="flex items-center gap-2">
-                <UserAvatar name={member.display_name} src={member.avatar_url} className="size-8" />
+              <li key={member.user.id} className="flex items-center gap-2">
+                <UserAvatar name={member.user.display_name} src={member.user.avatar_url} className="size-8" />
                 <Link
                   to="/profile/$userId"
-                  params={{ userId: member.id }}
+                  params={{ userId: member.user.id }}
                   className="font-display truncate text-xs font-semibold hover:text-clay-deep"
                 >
-                  {member.display_name}
+                  {member.user.display_name}
                 </Link>
               </li>
             ))}
