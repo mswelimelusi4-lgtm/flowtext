@@ -16,9 +16,9 @@ export function UserAvatar({
   square,
 }: {
   name: string;
-  src?: string | null;
-  className?: string;
-  square?: boolean;
+  src?: string | null | undefined;
+  className?: string | undefined;
+  square?: boolean | undefined;
 }) {
   const shape = square ? "rounded-xl" : "rounded-full";
   if (src) {
@@ -27,7 +27,7 @@ export function UserAvatar({
         src={src}
         alt={name}
         loading="lazy"
-        className={cn("shrink-0 object-cover bg-bone-soft", shape, className ?? "size-10")}
+        className={cn("shrink-0 bg-bone-soft object-cover", shape, className ?? "size-10")}
       />
     );
   }
