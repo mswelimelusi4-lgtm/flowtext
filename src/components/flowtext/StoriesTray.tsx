@@ -31,6 +31,7 @@ export function StoriesTray({ userId }: { userId: string }) {
         <button
           onClick={() => (hasMine ? setViewingIndex(mineIndex) : setComposing(true))}
           className="flex w-16 shrink-0 flex-col items-center gap-1.5"
+          aria-label={hasMine ? "View your story" : "Create your story"}
         >
           <span className="relative">
             <span
@@ -45,26 +46,20 @@ export function StoriesTray({ userId }: { userId: string }) {
                 className="size-14 ring-2 ring-bone"
               />
             </span>
-            <span className="absolute -right-0.5 -bottom-0.5 grid size-5 place-items-center rounded-full bg-teal text-bone ring-2 ring-bone">
+            <span
+              role="button"
+              aria-label="Add to your story"
+              onClick={(e) => {
+                e.stopPropagation();
+                setComposing(true);
+              }}
+              className="absolute -right-0.5 -bottom-0.5 grid size-5 cursor-pointer place-items-center rounded-full bg-teal text-bone ring-2 ring-bone"
+            >
               <Plus className="size-3" />
             </span>
           </span>
-          <span className="font-display w-full truncate text-[10px] font-semibold">Your story</span>
+          <span className="font-display w-full truncate text-[10px] font-semibold">Your Story</span>
         </button>
-
-        {hasMine && (
-          <button
-            onClick={() => setComposing(true)}
-            className="flex w-16 shrink-0 flex-col items-center gap-1.5"
-          >
-            <span className="grid size-14 place-items-center rounded-full bg-bone-soft ring-1 ring-ink/10">
-              <Plus className="size-5 text-ink-soft" />
-            </span>
-            <span className="font-display w-full truncate text-[10px] font-semibold text-ink-soft">
-              Add more
-            </span>
-          </button>
-        )}
 
         {others.map((group) => (
           <button
@@ -90,7 +85,7 @@ export function StoriesTray({ userId }: { userId: string }) {
                 group.seen && "text-ink-soft",
               )}
             >
-              {group.author.display_name}
+              {group.author.display_name.split(" ")[0]}
             </span>
           </button>
         ))}
