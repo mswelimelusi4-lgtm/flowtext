@@ -184,6 +184,156 @@ export function AppShell({
   );
 }
 
+function HamburgerMenu({ me, onSignOut }: { me?: Profile | null; onSignOut: () => void }) {
+  const [open, setOpen] = useState(false);
+  const [privacyOpen, setPrivacyOpen] = useState(false);
+  const [dark, setDark] = useState(() =>
+    typeof document !== "undefined" ? document.documentElement.classList.contains("dark") : false,
+  );
+  const rootRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!open) return;
+    function onPointerDown(event: PointerEvent) {
+      if (rootRef.current && !rootRef.current.contains(event.target as Node)) setOpen(false);
+    }
+    function onKey(event: KeyboardEvent) {
+      if (event.key === "Escape") setOpen(false);
+    }
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
+  function toggleDark() {
+    const next = !dark;
+    setDark(next);
+    document.documentElement.classList.toggle("dark", next);
+    try {
+      localStorage.setItem("flowtext-theme", next ? "dark" : "light");
+    } catch {
+      /* ignore */
+    }
+  }
+
+  function go(to: string) {
+    setOpen(false);
+    navigate({ to });
+  }
+
+  const itemCls =
+    "font-display flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-semibold text-ink hover:bg-bone-soft";
+
+  const body = (
+    <div className="max-h-[70vh] space-y-1 overflow-y-auto p-2">
+      {/* Your profile */}
+      <Link
+        to="/profile/$userId"
+        params={{ userId: me?.id ?? "" }}
+        onClick={() => setOpen(false)}
+        className="flex items-center gap-3 rounded-xl p-2 hover:bg-bone-soft"
+      >
+        <UserAvatar name={me?.display_name ?? "You"} src={me?.avatar_url} className="size-10" />
+        <span className="min-w-0">
+          <span className="font-display block truncate text-sm font-bold text-ink">
+            {me?.display_name ?? "Your profile"}
+          </span>
+          <span className="block text-xs text-ink-soft">See your profile</span>
+        </span>
+      </Link>
+
+      <div className="my-1 border-t border-ink/10" />
+
+      {/* Settings & Privacy */}
+      <button onClick={() => setPrivacyOpen((v) => !v)} className={itemCls} aria-expanded={privacyOpen}>
+        <Settings className="size-4 text-ink-soft" />
+        <span className="flex-1">Settings &amp; Privacy</span>
+        {privacyOpen ? (
+          <ChevronDown className="size-4 text-ink-soft" />
+        ) : (
+          <ChevronRight className="size-4 text-ink-soft" />
+        )}
+      </button>
+      {privacyOpen && (
+        <div className="ml-9 space-y-0.5">
+          <button onClick={() => go("/settings")} className={cn(itemCls, "text-xs font-medium")}>
+            Settings
+          </button>
+          <button onClick={() => go("/account")} className={cn(itemCls, "text-xs font-medium")}>
+            Privacy Checkup
+          </button>
+          <button onClick={() => go("/account")} className={cn(itemCls, "text-xs font-medium")}>
+            Privacy Center
+          </button>
+        </div>
+      )}
+
+      <button onClick={() => go("/account")} className={itemCls}>
+        <Bell className="size-4 text-ink-soft" />
+        Notifications settings
+      </button>
+
+      <button onClick={toggleDark} className={itemCls}>
+        {dark ? <Sun className="size-4 text-ink-soft" /> : <Moon className="size-4 text-ink-soft" />}
+        <span className="flex-1">Display</span>
+        <span className="text-xs font-medium text-ink-soft">{dark ? "Dark" : "Light"}</span>
+      </button>
+
+      <button onClick={() => go("/help")} className={itemCls}>
+        <CircleHelp className="size-4 text-ink-soft" />
+        Help &amp; Support
+      </button>
+
+      <div className="my-1 border-t border-ink/10" />
+
+      <button
+        onClick={() => {
+          setOpen(false);
+          onSignOut();
+        }}
+        className={cn(itemCls, "text-clay-deep")}
+      >
+        <LogOut className="size-4" />
+        Log Out
+      </button>
+    </div>
+  );
+
+  return (
+    <div ref={rootRef} className="relative">
+      <button
+        onClick={() => setOpen((v) => !v)}
+        aria-label="Menu"
+        aria-expanded={open}
+        className="grid size-9 place-items-center rounded-full bg-bone-soft text-ink ring-1 ring-ink/10 hover:ring-teal/40"
+      >
+        <Menu className="size-5" />
+      </button>
+
+      {/* Desktop dropdown */}
+      {open && (
+        <div className="absolute right-0 top-11 z-50 hidden w-80 rounded-2xl bg-card shadow-xl ring-1 ring-ink/10 sm:block">
+          {body}
+        </div>
+      )}
+
+      {/* Mobile slide-in panel */}
+      {open && (
+        <div className="fixed inset-0 z-50 sm:hidden">
+          <div className="absolute inset-0 bg-ink/30" onClick={() => setOpen(false)} />
+          <aside className="absolute inset-y-0 right-0 w-80 max-w-[85vw] animate-in slide-in-from-right bg-card shadow-xl duration-200">
+            {body}
+          </aside>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function RailCard({
   title,
   children,
