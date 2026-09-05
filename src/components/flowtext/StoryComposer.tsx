@@ -159,6 +159,7 @@ export function StoryComposer({ userId, onClose }: { userId: string; onClose: ()
       });
     },
     onSuccess: () => {
+      if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
       queryClient.invalidateQueries({ queryKey: ["story-tray", userId] });
       toast.success("Shared to your story");
       onClose();
@@ -383,6 +384,7 @@ export function StoryComposer({ userId, onClose }: { userId: string; onClose: ()
         style={{ paddingBottom: "var(--osk-height, 0px)" }}
       >
         <button
+          type="button"
           id="story-share-button"
           onClick={() => share.mutate()}
           disabled={share.isPending}

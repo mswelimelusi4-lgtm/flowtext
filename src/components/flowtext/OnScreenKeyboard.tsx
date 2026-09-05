@@ -83,6 +83,10 @@ export function OnScreenKeyboard() {
       if (!target) return;
       if (barRef.current?.contains(target)) return;
       if (isTextField(target)) return;
+      // Keep actionable controls in place until their click completes. Closing
+      // here changes the page layout between pointer-down and pointer-up,
+      // which can cancel taps on submit/share buttons on mobile.
+      if (target.closest("button, a, [role='button'], label, select")) return;
       close();
     }
     document.addEventListener("focusin", onFocusIn);
