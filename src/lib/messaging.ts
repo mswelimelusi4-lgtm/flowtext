@@ -353,3 +353,17 @@ export async function friendProfiles(userId: string): Promise<Profile[]> {
   const { data } = await supabase.from("profiles").select("*").in("id", ids);
   return (data ?? []) as unknown as Profile[];
 }
+
+export type ParticipantRead = {
+  user_id: string;
+  last_read_at: string;
+  state: string;
+};
+
+export async function fetchParticipantReads(threadId: string): Promise<ParticipantRead[]> {
+  const { data } = await supabase
+    .from("thread_participants")
+    .select("user_id, last_read_at, state")
+    .eq("thread_id", threadId);
+  return (data ?? []) as ParticipantRead[];
+}
