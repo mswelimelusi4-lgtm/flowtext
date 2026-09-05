@@ -77,7 +77,10 @@ export function StoriesTray({ userId }: { userId: string }) {
         {others.map((group) => (
           <button
             key={group.author.id}
-            onClick={() => setViewingIndex(groups.indexOf(group))}
+            onClick={() =>
+              setViewing({ group: groups.indexOf(group), story: group.firstUnseen })
+            }
+
             className="flex w-16 shrink-0 flex-col items-center gap-1.5"
           >
             <span
