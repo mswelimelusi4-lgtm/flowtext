@@ -96,10 +96,13 @@ export function OnScreenKeyboard() {
   useEffect(() => {
     const height = open ? (barRef.current?.offsetHeight ?? 0) : 0;
     document.body.style.paddingBottom = height ? `${height}px` : "";
+    document.documentElement.style.setProperty("--osk-height", height ? `${height}px` : "0px");
     return () => {
       document.body.style.paddingBottom = "";
+      document.documentElement.style.setProperty("--osk-height", "0px");
     };
   }, [open, panel]);
+
 
   const insert = (text: string) => {
     if (!field) return;

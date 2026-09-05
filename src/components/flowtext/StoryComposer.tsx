@@ -289,8 +289,11 @@ export function StoryComposer({ userId, onClose }: { userId: string; onClose: ()
           onChange={(event) => setCaption(event.target.value)}
           placeholder="Say something…"
           rows={2}
+          data-osk-submit="story-share-button"
+          data-osk-action="Share"
           className="w-full resize-none rounded-2xl bg-bone/10 p-3 text-sm text-bone placeholder:text-bone/50 focus:outline-none"
         />
+
 
         <div>
           <p className="text-[11px] font-semibold opacity-70">Background</p>
@@ -375,8 +378,12 @@ export function StoryComposer({ userId, onClose }: { userId: string; onClose: ()
         </div>
       </div>
 
-      <div className="mx-auto w-full max-w-md pt-2">
+      <div
+        className="mx-auto w-full max-w-md pt-2"
+        style={{ paddingBottom: "var(--osk-height, 0px)" }}
+      >
         <button
+          id="story-share-button"
           onClick={() => share.mutate()}
           disabled={share.isPending}
           className="font-display w-full rounded-full bg-bone py-3 text-sm font-semibold text-ink disabled:opacity-60"
@@ -384,6 +391,7 @@ export function StoryComposer({ userId, onClose }: { userId: string; onClose: ()
           {share.isPending ? "Sharing…" : "Share to Story"}
         </button>
       </div>
+
     </div>
   );
 }
