@@ -96,8 +96,14 @@ function MessagesPage() {
   useEffect(() => {
     if (!activeId) return;
     void markThreadRead(activeId, userId).then(refreshInbox);
+    // an open conversation shouldn't keep piling up bell notifications
+    void clearThreadNotifications(userId, activeId).then(() => {
+      queryClient.invalidateQueries({ queryKey: ["unread-notifications", userId] });
+      queryClient.invalidateQueries({ queryKey: ["notifications", userId] });
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeId, userId, messages.data?.length]);
+
 
   const run = (task: () => Promise<unknown>) =>
     task()
