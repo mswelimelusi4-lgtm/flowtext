@@ -114,14 +114,16 @@ export function StoriesTray({ userId }: { userId: string }) {
       </div>
 
       {composing && <StoryComposer userId={userId} onClose={() => setComposing(false)} />}
-      {viewingIndex !== null && groups.length > 0 && (
+      {viewing !== null && groups.length > 0 && (
         <StoryViewer
           groups={groups}
-          startIndex={viewingIndex}
+          startIndex={Math.min(viewing.group, groups.length - 1)}
+          startStoryIndex={viewing.story}
           userId={userId}
-          onClose={() => setViewingIndex(null)}
+          onClose={() => setViewing(null)}
         />
       )}
+
     </section>
   );
 }
