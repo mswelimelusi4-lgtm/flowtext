@@ -636,7 +636,8 @@ export async function openDirectThread(myId: string, otherId: string) {
         .in("id", candidates)
         .eq("is_group", false)
         .limit(1);
-      if (direct && direct.length > 0) return direct[0].id as string;
+      const found = direct?.[0];
+      if (found) return found.id as string;
     }
   }
   const { data: thread, error } = await supabase
