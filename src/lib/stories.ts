@@ -45,15 +45,16 @@ export type StoryGroup = {
 const STORY_COLS =
   "id, author_id, kind, media_url, caption, background, text_color, overlays, drawing, duration_ms, visibility, created_at, expires_at, author:profiles!stories_author_id_fkey(id, display_name, avatar_url)";
 
+// FlowText brand-aligned story backgrounds: ink, clay, teal, amber — no greens.
 export const STORY_BACKGROUNDS = [
-  "#1f2933",
+  "#262b33",
   "#b4522f",
-  "#0f6f6a",
-  "#d99017",
+  "#2f6b66",
+  "#c07f14",
   "#3b2f6b",
   "#7a1f3d",
-  "#20472f",
-  "#111111",
+  "#8a4b2a",
+  "#141414",
 ];
 
 export const STORY_TEXT_COLORS = ["#ffffff", "#111111", "#ffd166", "#8be9c6", "#ffb3c1"];
