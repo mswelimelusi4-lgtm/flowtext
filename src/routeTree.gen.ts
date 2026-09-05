@@ -17,6 +17,7 @@ import { Route as AuthenticatedFeedRouteImport } from './routes/_authenticated/f
 import { Route as AuthenticatedFriendsRouteImport } from './routes/_authenticated/friends'
 import { Route as AuthenticatedHelpRouteImport } from './routes/_authenticated/help'
 import { Route as AuthenticatedMessagesRouteImport } from './routes/_authenticated/messages'
+import { Route as AuthenticatedNotificationSettingsRouteImport } from './routes/_authenticated/notification-settings'
 import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated/notifications'
 import { Route as AuthenticatedPagesRouteImport } from './routes/_authenticated/pages'
 import { Route as AuthenticatedSearchRouteImport } from './routes/_authenticated/search'
@@ -66,6 +67,12 @@ const AuthenticatedMessagesRoute = AuthenticatedMessagesRouteImport.update({
   path: '/messages',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedNotificationSettingsRoute =
+  AuthenticatedNotificationSettingsRouteImport.update({
+    id: '/notification-settings',
+    path: '/notification-settings',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedNotificationsRoute =
   AuthenticatedNotificationsRouteImport.update({
     id: '/notifications',
@@ -125,6 +132,7 @@ export interface FileRoutesByFullPath {
   '/friends': typeof AuthenticatedFriendsRoute
   '/help': typeof AuthenticatedHelpRoute
   '/messages': typeof AuthenticatedMessagesRoute
+  '/notification-settings': typeof AuthenticatedNotificationSettingsRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/pages': typeof AuthenticatedPagesRoute
   '/search': typeof AuthenticatedSearchRoute
@@ -143,6 +151,7 @@ export interface FileRoutesByTo {
   '/friends': typeof AuthenticatedFriendsRoute
   '/help': typeof AuthenticatedHelpRoute
   '/messages': typeof AuthenticatedMessagesRoute
+  '/notification-settings': typeof AuthenticatedNotificationSettingsRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/pages': typeof AuthenticatedPagesRoute
   '/search': typeof AuthenticatedSearchRoute
@@ -163,6 +172,7 @@ export interface FileRoutesById {
   '/_authenticated/friends': typeof AuthenticatedFriendsRoute
   '/_authenticated/help': typeof AuthenticatedHelpRoute
   '/_authenticated/messages': typeof AuthenticatedMessagesRoute
+  '/_authenticated/notification-settings': typeof AuthenticatedNotificationSettingsRoute
   '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
   '/_authenticated/pages': typeof AuthenticatedPagesRoute
   '/_authenticated/search': typeof AuthenticatedSearchRoute
@@ -183,6 +193,7 @@ export interface FileRouteTypes {
     | '/friends'
     | '/help'
     | '/messages'
+    | '/notification-settings'
     | '/notifications'
     | '/pages'
     | '/search'
@@ -201,6 +212,7 @@ export interface FileRouteTypes {
     | '/friends'
     | '/help'
     | '/messages'
+    | '/notification-settings'
     | '/notifications'
     | '/pages'
     | '/search'
@@ -220,6 +232,7 @@ export interface FileRouteTypes {
     | '/_authenticated/friends'
     | '/_authenticated/help'
     | '/_authenticated/messages'
+    | '/_authenticated/notification-settings'
     | '/_authenticated/notifications'
     | '/_authenticated/pages'
     | '/_authenticated/search'
@@ -295,6 +308,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedMessagesRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/notification-settings': {
+      id: '/_authenticated/notification-settings'
+      path: '/notification-settings'
+      fullPath: '/notification-settings'
+      preLoaderRoute: typeof AuthenticatedNotificationSettingsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/notifications': {
       id: '/_authenticated/notifications'
       path: '/notifications'
@@ -367,6 +387,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedFriendsRoute: typeof AuthenticatedFriendsRoute
   AuthenticatedHelpRoute: typeof AuthenticatedHelpRoute
   AuthenticatedMessagesRoute: typeof AuthenticatedMessagesRoute
+  AuthenticatedNotificationSettingsRoute: typeof AuthenticatedNotificationSettingsRoute
   AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
   AuthenticatedPagesRoute: typeof AuthenticatedPagesRoute
   AuthenticatedSearchRoute: typeof AuthenticatedSearchRoute
@@ -384,6 +405,8 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedFriendsRoute: AuthenticatedFriendsRoute,
   AuthenticatedHelpRoute: AuthenticatedHelpRoute,
   AuthenticatedMessagesRoute: AuthenticatedMessagesRoute,
+  AuthenticatedNotificationSettingsRoute:
+    AuthenticatedNotificationSettingsRoute,
   AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
   AuthenticatedPagesRoute: AuthenticatedPagesRoute,
   AuthenticatedSearchRoute: AuthenticatedSearchRoute,
