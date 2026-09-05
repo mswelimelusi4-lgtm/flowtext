@@ -289,8 +289,11 @@ export function StoryComposer({ userId, onClose }: { userId: string; onClose: ()
           onChange={(event) => setCaption(event.target.value)}
           placeholder="Say something…"
           rows={2}
+          data-osk-submit="story-share-button"
+          data-osk-action="Share"
           className="w-full resize-none rounded-2xl bg-bone/10 p-3 text-sm text-bone placeholder:text-bone/50 focus:outline-none"
         />
+
 
         <div>
           <p className="text-[11px] font-semibold opacity-70">Background</p>
