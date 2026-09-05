@@ -589,9 +589,6 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      are_friends: { Args: { a: string; b: string }; Returns: boolean }
-      can_view_post: { Args: { pid: string; uid: string }; Returns: boolean }
-      is_group_member: { Args: { gid: string; uid: string }; Returns: boolean }
       is_thread_creator: {
         Args: { tid: string; uid: string }
         Returns: boolean
