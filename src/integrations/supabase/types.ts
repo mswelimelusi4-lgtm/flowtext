@@ -322,32 +322,87 @@ export type Database = {
           },
         ]
       }
+      message_reactions: {
+        Row: {
+          created_at: string
+          emoji: string
+          id: string
+          message_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          emoji: string
+          id?: string
+          message_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          emoji?: string
+          id?: string
+          message_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "message_reactions_message_id_fkey"
+            columns: ["message_id"]
+            isOneToOne: false
+            referencedRelation: "messages"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "message_reactions_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       messages: {
         Row: {
           content: string
           created_at: string
+          deleted_at: string | null
           id: string
+          kind: string
           media_url: string | null
+          reply_to_id: string | null
           sender_id: string
           thread_id: string
         }
         Insert: {
           content?: string
           created_at?: string
+          deleted_at?: string | null
           id?: string
+          kind?: string
           media_url?: string | null
+          reply_to_id?: string | null
           sender_id: string
           thread_id: string
         }
         Update: {
           content?: string
           created_at?: string
+          deleted_at?: string | null
           id?: string
+          kind?: string
           media_url?: string | null
+          reply_to_id?: string | null
           sender_id?: string
           thread_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "messages_reply_to_id_fkey"
+            columns: ["reply_to_id"]
+            isOneToOne: false
+            referencedRelation: "messages"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "messages_sender_id_fkey"
             columns: ["sender_id"]
@@ -878,18 +933,30 @@ export type Database = {
       }
       thread_participants: {
         Row: {
+          archived_at: string | null
           last_read_at: string
+          muted_at: string | null
+          state: string
           thread_id: string
+          unread_flag: boolean
           user_id: string
         }
         Insert: {
+          archived_at?: string | null
           last_read_at?: string
+          muted_at?: string | null
+          state?: string
           thread_id: string
+          unread_flag?: boolean
           user_id: string
         }
         Update: {
+          archived_at?: string | null
           last_read_at?: string
+          muted_at?: string | null
+          state?: string
           thread_id?: string
+          unread_flag?: boolean
           user_id?: string
         }
         Relationships: [
@@ -916,6 +983,7 @@ export type Database = {
           id: string
           is_group: boolean
           last_message_at: string
+          photo_url: string | null
           title: string | null
         }
         Insert: {
@@ -924,6 +992,7 @@ export type Database = {
           id?: string
           is_group?: boolean
           last_message_at?: string
+          photo_url?: string | null
           title?: string | null
         }
         Update: {
@@ -932,6 +1001,7 @@ export type Database = {
           id?: string
           is_group?: boolean
           last_message_at?: string
+          photo_url?: string | null
           title?: string | null
         }
         Relationships: [
@@ -987,6 +1057,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      can_see_message: { Args: { mid: string }; Returns: boolean }
       in_thread: { Args: { tid: string }; Returns: boolean }
       owns_thread: { Args: { tid: string }; Returns: boolean }
     }
