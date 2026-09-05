@@ -281,6 +281,7 @@ export function PostCard({
                     value={replyDraft}
                     onChange={(event) => setReplyDraft(event.target.value)}
                     placeholder="Write a reply…"
+                    data-osk-action="Reply"
                     className="flex-1 rounded-full bg-bone-soft px-3 py-1.5 text-xs outline-none ring-1 ring-ink/10 focus:ring-teal/40"
                   />
                   <button
@@ -306,6 +307,7 @@ export function PostCard({
               value={draft}
               onChange={(event) => setDraft(event.target.value)}
               placeholder="Add a comment…"
+              data-osk-action="Reply"
               className="flex-1 rounded-full bg-bone-soft px-3 py-1.5 text-xs outline-none ring-1 ring-ink/10 focus:ring-teal/40"
             />
             <button

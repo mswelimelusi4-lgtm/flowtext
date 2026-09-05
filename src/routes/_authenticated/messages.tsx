@@ -203,6 +203,7 @@ function MessagesPage() {
                   onChange={(event) => setDraft(event.target.value)}
                   placeholder="Write a message"
                   aria-label="Message"
+                  data-osk-action="Send"
                   className="flex-1 rounded-full bg-bone-soft px-4 py-2 text-sm outline-none ring-1 ring-ink/10 focus:ring-teal/40"
                 />
                 <button
