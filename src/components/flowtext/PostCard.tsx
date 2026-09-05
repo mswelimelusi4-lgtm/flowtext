@@ -229,7 +229,7 @@ export function PostCard({
                     : "bg-clay/10 text-clay-deep ring-1 ring-clay/20",
               )}
             >
-              {reaction.label}
+              {reaction.glyph} {reaction.label}
               {count > 0 ? ` · ${count}` : ""}
             </button>
           );
