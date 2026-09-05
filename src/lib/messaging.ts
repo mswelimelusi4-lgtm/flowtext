@@ -1,5 +1,5 @@
 import { supabase } from "@/integrations/supabase/client";
-import { friendIdsOf, notify, type Profile } from "@/lib/api";
+import { friendIdsOf, type Profile } from "@/lib/api";
 
 const PROFILE_LITE = "id, display_name, avatar_url";
 

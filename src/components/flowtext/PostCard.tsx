@@ -9,7 +9,6 @@ import {
   deletePost,
   fetchComments,
   fetchPostMeta,
-  notify,
   setReaction,
   type Comment,
   type Post,
