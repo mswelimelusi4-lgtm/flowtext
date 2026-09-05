@@ -15,9 +15,17 @@ import {
 import { supabase } from "@/integrations/supabase/client";
 import { Wordmark } from "./Wordmark";
 import { UserAvatar } from "./UserAvatar";
-import { getProfile, unreadNotificationCount, type Profile } from "@/lib/api";
+import { NotificationsList } from "./NotificationsPanel";
+import { getProfile, type Profile } from "@/lib/api";
+import {
+  ensureBirthdayReminders,
+  unreadNotificationsCount,
+  useBellBounce,
+  useNotificationsRealtime,
+} from "@/lib/notifications";
 import { fetchInbox } from "@/lib/messaging";
 import { cn } from "@/lib/utils";
+
 
 const NAV = [
   { to: "/feed", label: "Feed" },
