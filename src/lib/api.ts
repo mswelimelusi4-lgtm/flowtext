@@ -305,7 +305,6 @@ export async function sendFriendRequest(requesterId: string, addresseeId: string
     .from("friendships")
     .insert({ requester_id: requesterId, addressee_id: addresseeId });
   if (error) throw new Error(error.message);
-  await notify({ userId: addresseeId, actorId: requesterId, type: "friend_request" });
 }
 
 export async function acceptFriendRequest(edgeId: string, requesterId: string, myId: string) {
@@ -314,7 +313,6 @@ export async function acceptFriendRequest(edgeId: string, requesterId: string, m
     .update({ status: "accepted" })
     .eq("id", edgeId);
   if (error) throw new Error(error.message);
-  await notify({ userId: requesterId, actorId: myId, type: "friend_accepted" });
 }
 
 export async function removeFriendEdge(edgeId: string) {
@@ -613,24 +611,6 @@ export async function sendMessage(input: {
     media_url: input.mediaUrl ?? null,
   });
   if (error) throw new Error(error.message);
-
-  const { data: others } = await supabase
-    .from("thread_participants")
-    .select("user_id")
-    .eq("thread_id", input.threadId);
-  await Promise.all(
-    (others ?? [])
-      .filter((p) => p.user_id !== input.senderId)
-      .map((p) =>
-        notify({
-          userId: p.user_id,
-          actorId: input.senderId,
-          type: "message",
-          targetId: input.threadId,
-          body: input.content.slice(0, 90),
-        }),
-      ),
-  );
 }
 
 export async function markThreadRead(threadId: string, userId: string) {

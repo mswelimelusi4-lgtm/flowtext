@@ -65,15 +65,6 @@ export function PostCard({
   const react = useMutation({
     mutationFn: async (type: ReactionType) => {
       await setReaction({ userId, type, postId: post.id, current: meta.data?.mine ?? null });
-      if (meta.data?.mine !== type) {
-        await notify({
-          userId: post.author_id,
-          actorId: userId,
-          type: "reaction",
-          targetId: post.id,
-          body: type,
-        });
-      }
     },
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["post-meta", post.id, userId] }),
     onError: (error: Error) => toast.error(error.message),
@@ -86,13 +77,6 @@ export function PostCard({
         authorId: userId,
         content: input.content,
         parentCommentId: input.parentId,
-      });
-      await notify({
-        userId: post.author_id,
-        actorId: userId,
-        type: "comment",
-        targetId: post.id,
-        body: input.content.slice(0, 90),
       });
     },
     onSuccess: () => {
