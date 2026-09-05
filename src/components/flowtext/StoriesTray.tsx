@@ -39,7 +39,10 @@ export function StoriesTray({ userId }: { userId: string }) {
       <div className="flex gap-3 overflow-x-auto px-1 pb-1">
         {/* Your story */}
         <button
-          onClick={() => (hasMine ? setViewingIndex(mineIndex) : setComposing(true))}
+          onClick={() =>
+            hasMine ? setViewing({ group: mineIndex, story: 0 }) : setComposing(true)
+          }
+
           className="flex w-16 shrink-0 flex-col items-center gap-1.5"
           aria-label={hasMine ? "View your story" : "Create your story"}
         >
