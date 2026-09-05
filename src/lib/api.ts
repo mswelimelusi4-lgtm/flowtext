@@ -34,14 +34,15 @@ export type Comment = {
   author: Profile | null;
 };
 
-export type ReactionType = "like" | "love" | "laugh" | "wow" | "sad";
+export type ReactionType = "like" | "love" | "laugh" | "wow" | "sad" | "angry";
 
 export const REACTIONS: { type: ReactionType; label: string; glyph: string }[] = [
-  { type: "like", label: "Like", glyph: "◒" },
-  { type: "love", label: "Love", glyph: "♥" },
-  { type: "laugh", label: "Laugh", glyph: "◠" },
-  { type: "wow", label: "Wow", glyph: "◎" },
-  { type: "sad", label: "Sad", glyph: "◡" },
+  { type: "like", label: "Like", glyph: "👍" },
+  { type: "love", label: "Love", glyph: "❤️" },
+  { type: "laugh", label: "Laugh", glyph: "😂" },
+  { type: "wow", label: "Wow", glyph: "😮" },
+  { type: "sad", label: "Sad", glyph: "😢" },
+  { type: "angry", label: "Angry", glyph: "😡" },
 ];
 
 const PROFILE_COLS = "id, display_name, bio, avatar_url, cover_url, location, work, education, created_at";
