@@ -14,7 +14,6 @@ import {
   fetchUserPosts,
   getProfile,
   mutualCount,
-  openDirectThread,
   removeFriendEdge,
   sendFriendRequest,
   toggleFollow,
@@ -26,6 +25,7 @@ import {
   fetchProfilePhotos,
   recordProfilePhoto,
 } from "@/lib/profile";
+import { openDirectChat } from "@/lib/messaging";
 import { uploadMedia } from "@/lib/media";
 
 type Tab = "posts" | "photos" | "videos";
@@ -107,7 +107,7 @@ function ProfilePage() {
   });
 
   const message = useMutation({
-    mutationFn: () => openDirectThread(myId, userId),
+    mutationFn: () => openDirectChat(myId, userId),
     onSuccess: (threadId) => navigate({ to: "/messages", search: { thread: threadId } }),
     onError: (error: Error) => toast.error(error.message),
   });
