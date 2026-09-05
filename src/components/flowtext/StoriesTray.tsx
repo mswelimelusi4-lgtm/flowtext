@@ -1,35 +1,48 @@
-import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
 import { UserAvatar } from "./UserAvatar";
 import { StoryComposer } from "./StoryComposer";
 import { StoryViewer } from "./StoryViewer";
-import { fetchStoryTray } from "@/lib/stories";
+import { fetchStoryTray, subscribeToStories } from "@/lib/stories";
 import { getProfile } from "@/lib/api";
 import { cn } from "@/lib/utils";
 
 export function StoriesTray({ userId }: { userId: string }) {
+  const queryClient = useQueryClient();
   const [composing, setComposing] = useState(false);
-  const [viewingIndex, setViewingIndex] = useState<number | null>(null);
+  const [viewing, setViewing] = useState<{ group: number; story: number } | null>(null);
 
   const me = useQuery({ queryKey: ["profile", userId], queryFn: () => getProfile(userId) });
   const tray = useQuery({
     queryKey: ["story-tray", userId],
     queryFn: () => fetchStoryTray(userId),
-    refetchInterval: 120000,
+    refetchInterval: 60000,
   });
+
+  useEffect(
+    () =>
+      subscribeToStories(() => {
+        void queryClient.invalidateQueries({ queryKey: ["story-tray", userId] });
+      }),
+    [queryClient, userId],
+  );
 
   const groups = tray.data ?? [];
   const mineIndex = groups.findIndex((group) => group.author.id === userId);
   const hasMine = mineIndex >= 0;
   const others = groups.filter((group) => group.author.id !== userId);
 
+
   return (
     <section aria-label="Stories" className="-mx-1 mb-4">
       <div className="flex gap-3 overflow-x-auto px-1 pb-1">
         {/* Your story */}
         <button
-          onClick={() => (hasMine ? setViewingIndex(mineIndex) : setComposing(true))}
+          onClick={() =>
+            hasMine ? setViewing({ group: mineIndex, story: 0 }) : setComposing(true)
+          }
+
           className="flex w-16 shrink-0 flex-col items-center gap-1.5"
           aria-label={hasMine ? "View your story" : "Create your story"}
         >
@@ -64,7 +77,10 @@ export function StoriesTray({ userId }: { userId: string }) {
         {others.map((group) => (
           <button
             key={group.author.id}
-            onClick={() => setViewingIndex(groups.indexOf(group))}
+            onClick={() =>
+              setViewing({ group: groups.indexOf(group), story: group.firstUnseen })
+            }
+
             className="flex w-16 shrink-0 flex-col items-center gap-1.5"
           >
             <span
@@ -98,14 +114,16 @@ export function StoriesTray({ userId }: { userId: string }) {
       </div>
 
       {composing && <StoryComposer userId={userId} onClose={() => setComposing(false)} />}
-      {viewingIndex !== null && groups.length > 0 && (
+      {viewing !== null && groups.length > 0 && (
         <StoryViewer
           groups={groups}
-          startIndex={viewingIndex}
+          startIndex={Math.min(viewing.group, groups.length - 1)}
+          startStoryIndex={viewing.story}
           userId={userId}
-          onClose={() => setViewingIndex(null)}
+          onClose={() => setViewing(null)}
         />
       )}
+
     </section>
   );
 }

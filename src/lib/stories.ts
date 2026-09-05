@@ -36,8 +36,11 @@ export type StoryGroup = {
   stories: Story[];
   /** true when every story of this author has already been seen by me */
   seen: boolean;
+  /** index of the first story I have not seen yet (0 when all unseen) */
+  firstUnseen: number;
   latestAt: string;
 };
+
 
 const STORY_COLS =
   "id, author_id, kind, media_url, caption, background, text_color, overlays, drawing, duration_ms, visibility, created_at, expires_at, author:profiles!stories_author_id_fkey(id, display_name, avatar_url)";
@@ -90,12 +93,15 @@ export async function fetchStoryTray(userId: string): Promise<StoryGroup[]> {
     };
     const group = groups.get(story.author_id) ?? {
       author,
-      stories: [],
+      stories: [] as Story[],
       seen: true,
+      firstUnseen: 0,
       latestAt: story.created_at,
     };
+    const unseen = !seenIds.has(story.id) && story.author_id !== userId;
+    if (unseen && group.seen) group.firstUnseen = group.stories.length;
     group.stories.push(story);
-    if (!seenIds.has(story.id) && story.author_id !== userId) group.seen = false;
+    if (unseen) group.seen = false;
     if (story.created_at > group.latestAt) group.latestAt = story.created_at;
     groups.set(story.author_id, group);
   }
@@ -108,6 +114,19 @@ export async function fetchStoryTray(userId: string): Promise<StoryGroup[]> {
     return b.latestAt.localeCompare(a.latestAt);
   });
 }
+
+/** Live updates: fires whenever a story or story view changes. */
+export function subscribeToStories(onChange: () => void) {
+  const channel = supabase
+    .channel("stories-live")
+    .on("postgres_changes", { event: "*", schema: "public", table: "stories" }, onChange)
+    .on("postgres_changes", { event: "*", schema: "public", table: "story_views" }, onChange)
+    .subscribe();
+  return () => {
+    void supabase.removeChannel(channel);
+  };
+}
+
 
 export async function createStory(input: {
   authorId: string;

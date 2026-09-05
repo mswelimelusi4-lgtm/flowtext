@@ -16,17 +16,19 @@ import { cn } from "@/lib/utils";
 export function StoryViewer({
   groups,
   startIndex,
+  startStoryIndex = 0,
   userId,
   onClose,
 }: {
   groups: StoryGroup[];
   startIndex: number;
+  startStoryIndex?: number;
   userId: string;
   onClose: () => void;
 }) {
   const queryClient = useQueryClient();
   const [groupIndex, setGroupIndex] = useState(startIndex);
-  const [storyIndex, setStoryIndex] = useState(0);
+  const [storyIndex, setStoryIndex] = useState(startStoryIndex);
   const [paused, setPaused] = useState(false);
   const [progress, setProgress] = useState(0);
   const [showViewers, setShowViewers] = useState(false);
@@ -42,12 +44,14 @@ export function StoryViewer({
     if (!group) return onClose();
     if (storyIndex + 1 < group.stories.length) return setStoryIndex(storyIndex + 1);
     if (groupIndex + 1 < groups.length) {
+      const nextGroup = groups[groupIndex + 1]!;
       setGroupIndex(groupIndex + 1);
-      setStoryIndex(0);
+      setStoryIndex(Math.min(nextGroup.firstUnseen, Math.max(0, nextGroup.stories.length - 1)));
       return;
     }
     onClose();
-  }, [group, groupIndex, groups.length, onClose, storyIndex]);
+  }, [group, groupIndex, groups, onClose, storyIndex]);
+
 
   const previous = useCallback(() => {
     setProgress(0);
