@@ -233,7 +233,7 @@ export function PostCard({
               {count > 0 ? ` · ${count}` : ""}
             </button>
           );
-        })
+        })}
         <button
           onClick={() => share.mutate()}
           className="pill-pop rounded-full bg-teal/10 px-3 py-1 text-xs font-medium text-teal-deep ring-1 ring-teal/20"
