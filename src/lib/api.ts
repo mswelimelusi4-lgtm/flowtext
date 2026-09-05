@@ -61,7 +61,8 @@ export const REACTIONS: { type: ReactionType; label: string; glyph: string }[] =
   { type: "angry", label: "Angry", glyph: "😡" },
 ];
 
-const PROFILE_COLS = "id, display_name, bio, avatar_url, cover_url, location, work, education, created_at";
+const PROFILE_COLS =
+  "id, display_name, bio, avatar_url, cover_url, location, work, education, created_at, current_city, hometown, relationship_status, partner_name, website, interests, favorite_quotes, about_extra, share_avatar_updates, deactivated_at, default_post_visibility, friends_list_visibility, friend_request_scope, lookup_by_email, lookup_by_phone, two_factor_enabled";
 const POST_COLS = `id, author_id, group_id, content, media_urls, media_type, visibility, created_at, author:profiles!posts_author_id_fkey(${PROFILE_COLS})`;
 
 export const PAGE_SIZE = 8;
