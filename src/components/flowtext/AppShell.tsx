@@ -15,7 +15,8 @@ import {
 import { supabase } from "@/integrations/supabase/client";
 import { Wordmark } from "./Wordmark";
 import { UserAvatar } from "./UserAvatar";
-import { fetchThreads, getProfile, unreadNotificationCount, type Profile } from "@/lib/api";
+import { getProfile, unreadNotificationCount, type Profile } from "@/lib/api";
+import { fetchInbox } from "@/lib/messaging";
 import { cn } from "@/lib/utils";
 
 const NAV = [
@@ -47,11 +48,14 @@ export function AppShell({
     refetchInterval: 30000,
   });
   const { data: threads = [] } = useQuery({
-    queryKey: ["threads", userId],
-    queryFn: () => fetchThreads(userId),
+    queryKey: ["inbox", userId],
+    queryFn: () => fetchInbox(userId),
     refetchInterval: 30000,
   });
-  const unreadMessages = threads.reduce((sum, t) => sum + (t.unread > 0 ? 1 : 0), 0);
+  const unreadMessages = threads.reduce(
+    (sum, t) => sum + (t.state === "accepted" && !t.archived && t.unread > 0 ? 1 : 0),
+    0,
+  );
 
   const badgeFor = (to: string) =>
     to === "/messages" ? unreadMessages : to === "/notifications" ? unreadNotes : 0;

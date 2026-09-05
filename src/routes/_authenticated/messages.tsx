@@ -1,16 +1,30 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { createFileRoute, useRouteContext } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { AppShell, EmptyNote, RailCard } from "@/components/flowtext/AppShell";
-import { UserAvatar } from "@/components/flowtext/UserAvatar";
+import { ChatPanel, GroupInfoPanel, InboxPanel } from "@/components/flowtext/Messenger";
+import { uploadMedia } from "@/lib/media";
 import {
-  fetchMessages,
-  fetchThreads,
+  acceptRequest,
+  addThreadMembers,
+  deleteThreadForMe,
+  fetchChatMessages,
+  fetchInbox,
+  fetchParticipantReads,
+  friendProfiles,
   markThreadRead,
-  sendMessage,
-  type ThreadSummary,
-} from "@/lib/api";
+  markThreadUnread,
+  reactToMessage,
+  removeThreadMember,
+  sendChatMessage,
+  setThreadArchived,
+  setThreadMuted,
+  unsendMessage,
+  updateThreadInfo,
+  type InboxThread,
+} from "@/lib/messaging";
+import { useInboxRealtime, usePresence, useThreadChannel } from "@/lib/usePresence";
 
 export const Route = createFileRoute("/_authenticated/messages")({
   validateSearch: (search: Record<string, unknown>) => ({
@@ -21,69 +35,104 @@ export const Route = createFileRoute("/_authenticated/messages")({
       { title: "Messages — FlowText" },
       {
         name: "description",
-        content: "Direct and group chats on FlowText, with unread indicators and live updates.",
+        content:
+          "Your FlowText inbox: live chats, message requests, reactions, replies and voice notes.",
       },
       { property: "og:title", content: "Messages — FlowText" },
-      { property: "og:description", content: "Your FlowText inbox: 1:1 and group conversations." },
+      { property: "og:description", content: "Chat in real time with friends and groups on FlowText." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: MessagesPage,
 });
-
-function threadName(thread: ThreadSummary, userId: string) {
-  if (thread.title) return thread.title;
-  const others = thread.participants.filter((p) => p.id !== userId);
-  if (others.length === 0) return "You";
-  return others.map((p) => p.display_name).join(", ");
-}
 
 function MessagesPage() {
   const { userId } = useRouteContext({ from: "/_authenticated" });
   const { thread: threadParam } = Route.useSearch();
   const navigate = Route.useNavigate();
   const queryClient = useQueryClient();
-  const [draft, setDraft] = useState("");
-  const endRef = useRef<HTMLDivElement | null>(null);
+  const [showInfo, setShowInfo] = useState(false);
+  const presence = usePresence(userId);
 
-  const threads = useQuery({
-    queryKey: ["threads", userId],
-    queryFn: () => fetchThreads(userId),
+  const inbox = useQuery({
+    queryKey: ["inbox", userId],
+    queryFn: () => fetchInbox(userId),
+    refetchInterval: 30000,
+  });
+
+  const list = inbox.data ?? [];
+  const accepted = list.filter((t) => t.state === "accepted" && !t.archived);
+  const activeId = threadParam ?? accepted[0]?.id;
+  const active = list.find((t) => t.id === activeId);
+
+  const refreshInbox = () => queryClient.invalidateQueries({ queryKey: ["inbox", userId] });
+  useInboxRealtime(userId, refreshInbox);
+
+  const messages = useQuery({
+    queryKey: ["chat", activeId],
+    queryFn: () => fetchChatMessages(activeId as string),
+    enabled: Boolean(activeId),
+  });
+
+  const reads = useQuery({
+    queryKey: ["chat-reads", activeId],
+    queryFn: () => fetchParticipantReads(activeId as string),
+    enabled: Boolean(activeId),
     refetchInterval: 15000,
   });
 
-  const activeId = threadParam ?? threads.data?.[0]?.id;
+  const friends = useQuery({
+    queryKey: ["friend-profiles", userId],
+    queryFn: () => friendProfiles(userId),
+  });
 
-  const messages = useQuery({
-    queryKey: ["messages", activeId],
-    queryFn: () => fetchMessages(activeId as string),
-    enabled: Boolean(activeId),
-    refetchInterval: 8000,
+  const { typingIds, sendTyping } = useThreadChannel(activeId, userId, () => {
+    void queryClient.invalidateQueries({ queryKey: ["chat", activeId] });
+    void queryClient.invalidateQueries({ queryKey: ["chat-reads", activeId] });
+    refreshInbox();
   });
 
   useEffect(() => {
     if (!activeId) return;
-    void markThreadRead(activeId, userId).then(() => {
-      queryClient.invalidateQueries({ queryKey: ["threads", userId] });
-    });
-  }, [activeId, userId, queryClient]);
+    void markThreadRead(activeId, userId).then(refreshInbox);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeId, userId, messages.data?.length]);
 
-  useEffect(() => {
-    endRef.current?.scrollIntoView({ block: "end" });
-  }, [messages.data?.length, activeId]);
+  const run = (task: () => Promise<unknown>) =>
+    task()
+      .then(() => {
+        refreshInbox();
+        void queryClient.invalidateQueries({ queryKey: ["chat", activeId] });
+      })
+      .catch((error: Error) => toast.error(error.message));
 
   const send = useMutation({
-    mutationFn: () =>
-      sendMessage({ threadId: activeId as string, senderId: userId, content: draft.trim() }),
+    mutationFn: (input: { content: string; mediaUrl?: string | null; kind?: string; replyToId?: string | null }) =>
+      sendChatMessage({
+        threadId: activeId as string,
+        senderId: userId,
+        content: input.content,
+        mediaUrl: input.mediaUrl ?? null,
+        kind: input.kind ?? "text",
+        replyToId: input.replyToId ?? null,
+      }),
     onSuccess: () => {
-      setDraft("");
-      queryClient.invalidateQueries({ queryKey: ["messages", activeId] });
-      queryClient.invalidateQueries({ queryKey: ["threads", userId] });
+      void queryClient.invalidateQueries({ queryKey: ["chat", activeId] });
+      refreshInbox();
     },
     onError: (error: Error) => toast.error(error.message),
   });
 
-  const list = threads.data ?? [];
-  const active = list.find((t) => t.id === activeId);
+  const rowActions = (thread: InboxThread) => ({
+    onMute: () => void run(() => setThreadMuted(thread.id, userId, !thread.muted)),
+    onArchive: () => void run(() => setThreadArchived(thread.id, userId, !thread.archived)),
+    onDelete: () => void run(() => deleteThreadForMe(thread.id, userId)),
+    onToggleRead: () =>
+      void run(() =>
+        thread.unread > 0 ? markThreadRead(thread.id, userId) : markThreadUnread(thread.id, userId),
+      ),
+  });
 
   return (
     <AppShell
@@ -91,133 +140,66 @@ function MessagesPage() {
       rail={
         <RailCard title="Inbox">
           <EmptyNote>
-            Start a chat from someone's profile with the Message button, or pick a conversation here.
+            Chats update live. Messages from people you are not connected to wait in Requests until you
+            accept them.
           </EmptyNote>
         </RailCard>
       }
     >
       <h1 className="font-display text-xl font-semibold">Messages</h1>
 
-      <div className="mt-4 grid gap-4 md:grid-cols-[240px_minmax(0,1fr)]">
-        <aside className="space-y-1.5">
-          {threads.isLoading &&
-            [0, 1, 2].map((index) => (
-              <div key={index} className="h-14 animate-pulse rounded-xl bg-bone-soft" />
-            ))}
-          {!threads.isLoading && list.length === 0 && (
-            <p className="rounded-xl bg-bone-soft/60 p-4 text-xs text-ink-soft ring-1 ring-black/5">
-              No conversations yet.
-            </p>
-          )}
-          {list.map((thread) => (
-            <button
-              key={thread.id}
-              onClick={() => navigate({ to: ".", search: { thread: thread.id } })}
-              className={`w-full rounded-xl p-3 text-left ring-1 ring-black/5 ${
-                thread.id === activeId ? "bg-ink text-bone" : "bg-card hover:bg-bone-soft"
-              }`}
-            >
-              <span className="font-display flex items-center justify-between text-xs font-semibold">
-                <span className="truncate">{threadName(thread, userId)}</span>
-                {thread.unread > 0 && (
-                  <span className="ml-2 grid size-4 place-items-center rounded-full bg-clay text-[9px] font-bold text-bone">
-                    {thread.unread}
-                  </span>
-                )}
-              </span>
-              <span
-                className={`mt-1 block truncate text-[11px] ${
-                  thread.id === activeId ? "text-bone/70" : "text-ink-soft"
-                }`}
-              >
-                {thread.lastMessage ?? "No messages yet"}
-              </span>
-            </button>
-          ))}
-        </aside>
+      <div className="mt-4 grid gap-4 md:grid-cols-[280px_minmax(0,1fr)]">
+        <InboxPanel
+          threads={list}
+          myId={userId}
+          activeId={activeId}
+          loading={inbox.isLoading}
+          isOnline={presence.isOnline}
+          onOpen={(id) => navigate({ to: ".", search: { thread: id } })}
+          actions={rowActions}
+          onAcceptRequest={(id) => void run(() => acceptRequest(id, userId))}
+          onDeleteRequest={(id) => void run(() => deleteThreadForMe(id, userId))}
+        />
 
-        <section className="flex min-h-[420px] flex-col rounded-2xl bg-card ring-1 ring-black/5">
-          {!activeId ? (
-            <div className="grid flex-1 place-items-center p-6 text-center text-xs text-ink-soft">
-              Pick a conversation to start reading.
-            </div>
-          ) : (
-            <>
-              <header className="font-display border-b border-ink/10 px-4 py-3 text-sm font-semibold">
-                {active ? threadName(active, userId) : "Conversation"}
-              </header>
-
-              <div className="flex-1 space-y-3 overflow-y-auto p-4">
-                {messages.isLoading &&
-                  [0, 1, 2].map((index) => (
-                    <div key={index} className="h-10 animate-pulse rounded-xl bg-bone-soft" />
-                  ))}
-                {!messages.isLoading && (messages.data ?? []).length === 0 && (
-                  <p className="text-center text-xs text-ink-soft">
-                    No messages yet — say hello below.
-                  </p>
-                )}
-                {(messages.data ?? []).map((message) => {
-                  const mine = message.sender_id === userId;
-                  return (
-                    <div
-                      key={message.id}
-                      className={`flex items-end gap-2 ${mine ? "justify-end" : "justify-start"}`}
-                    >
-                      {!mine && (
-                        <UserAvatar
-                          name={message.sender?.display_name ?? "User"}
-                          src={message.sender?.avatar_url}
-                          className="size-7"
-                        />
-                      )}
-                      <div
-                        className={`max-w-[75%] rounded-2xl px-3 py-2 text-xs leading-relaxed ${
-                          mine ? "bg-ink text-bone" : "bg-bone-soft text-ink"
-                        }`}
-                      >
-                        <p className="whitespace-pre-wrap">{message.content}</p>
-                        <p className={`mt-1 text-[10px] ${mine ? "text-bone/60" : "text-ink-soft/70"}`}>
-                          {new Date(message.created_at).toLocaleTimeString([], {
-                            hour: "2-digit",
-                            minute: "2-digit",
-                          })}
-                        </p>
-                      </div>
-                    </div>
-                  );
-                })}
-                <div ref={endRef} />
-              </div>
-
-              <form
-                onSubmit={(event) => {
-                  event.preventDefault();
-                  if (!draft.trim()) return;
-                  send.mutate();
-                }}
-                className="flex items-center gap-2 border-t border-ink/10 p-3"
-              >
-                <input
-                  value={draft}
-                  onChange={(event) => setDraft(event.target.value)}
-                  placeholder="Write a message"
-                  aria-label="Message"
-                  data-osk-action="Send"
-                  className="flex-1 rounded-full bg-bone-soft px-4 py-2 text-sm outline-none ring-1 ring-ink/10 focus:ring-teal/40"
-                />
-                <button
-                  type="submit"
-                  disabled={send.isPending || !draft.trim()}
-                  className="font-display rounded-full bg-clay px-4 py-2 text-xs font-semibold text-bone disabled:opacity-40"
-                >
-                  Send
-                </button>
-              </form>
-            </>
-          )}
-        </section>
+        <ChatPanel
+          thread={active}
+          myId={userId}
+          messages={messages.data ?? []}
+          loading={messages.isLoading}
+          reads={reads.data ?? []}
+          typingIds={typingIds}
+          isOnline={presence.isOnline}
+          lastSeen={presence.lastSeen}
+          onSend={(input) => send.mutate(input)}
+          onReact={(messageId, emoji) => void run(() => reactToMessage(messageId, userId, emoji))}
+          onUnsend={(messageId) => void run(() => unsendMessage(messageId))}
+          onTyping={sendTyping}
+          onOpenInfo={() => setShowInfo(true)}
+        />
       </div>
+
+      {showInfo && active && (
+        <GroupInfoPanel
+          thread={active}
+          myId={userId}
+          friends={(friends.data ?? []).map((f) => ({
+            id: f.id,
+            display_name: f.display_name,
+            avatar_url: f.avatar_url,
+          }))}
+          onClose={() => setShowInfo(false)}
+          onRename={(title) => void run(() => updateThreadInfo(active.id, { title: title || null }))}
+          onPhoto={(file) =>
+            void run(async () => {
+              const uploaded = await uploadMedia(file, userId);
+              await updateThreadInfo(active.id, { photo_url: uploaded.url });
+            })
+          }
+          onAdd={(memberId) => void run(() => addThreadMembers(active.id, [memberId]))}
+          onRemove={(memberId) => void run(() => removeThreadMember(active.id, memberId))}
+          onMute={() => void run(() => setThreadMuted(active.id, userId, !active.muted))}
+        />
+      )}
     </AppShell>
   );
 }
