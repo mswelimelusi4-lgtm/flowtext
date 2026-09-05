@@ -19,6 +19,7 @@ import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authen
 import { Route as AuthenticatedPagesRouteImport } from './routes/_authenticated/pages'
 import { Route as AuthenticatedSearchRouteImport } from './routes/_authenticated/search'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
+import { Route as AuthenticatedAboutUserIdRouteImport } from './routes/_authenticated/about.$userId'
 import { Route as AuthenticatedGroupsIndexRouteImport } from './routes/_authenticated/groups.index'
 import { Route as AuthenticatedGroupsGroupIdRouteImport } from './routes/_authenticated/groups.$groupId'
 import { Route as AuthenticatedProfileUserIdRouteImport } from './routes/_authenticated/profile.$userId'
@@ -73,6 +74,12 @@ const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAboutUserIdRoute =
+  AuthenticatedAboutUserIdRouteImport.update({
+    id: '/about/$userId',
+    path: '/about/$userId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedGroupsIndexRoute =
   AuthenticatedGroupsIndexRouteImport.update({
     id: '/groups/',
@@ -102,6 +109,7 @@ export interface FileRoutesByFullPath {
   '/pages': typeof AuthenticatedPagesRoute
   '/search': typeof AuthenticatedSearchRoute
   '/settings': typeof AuthenticatedSettingsRoute
+  '/about/$userId': typeof AuthenticatedAboutUserIdRoute
   '/groups/$groupId': typeof AuthenticatedGroupsGroupIdRoute
   '/profile/$userId': typeof AuthenticatedProfileUserIdRoute
   '/groups/': typeof AuthenticatedGroupsIndexRoute
@@ -116,6 +124,7 @@ export interface FileRoutesByTo {
   '/pages': typeof AuthenticatedPagesRoute
   '/search': typeof AuthenticatedSearchRoute
   '/settings': typeof AuthenticatedSettingsRoute
+  '/about/$userId': typeof AuthenticatedAboutUserIdRoute
   '/groups/$groupId': typeof AuthenticatedGroupsGroupIdRoute
   '/profile/$userId': typeof AuthenticatedProfileUserIdRoute
   '/groups': typeof AuthenticatedGroupsIndexRoute
@@ -132,6 +141,7 @@ export interface FileRoutesById {
   '/_authenticated/pages': typeof AuthenticatedPagesRoute
   '/_authenticated/search': typeof AuthenticatedSearchRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
+  '/_authenticated/about/$userId': typeof AuthenticatedAboutUserIdRoute
   '/_authenticated/groups/$groupId': typeof AuthenticatedGroupsGroupIdRoute
   '/_authenticated/profile/$userId': typeof AuthenticatedProfileUserIdRoute
   '/_authenticated/groups/': typeof AuthenticatedGroupsIndexRoute
@@ -148,6 +158,7 @@ export interface FileRouteTypes {
     | '/pages'
     | '/search'
     | '/settings'
+    | '/about/$userId'
     | '/groups/$groupId'
     | '/profile/$userId'
     | '/groups/'
@@ -162,6 +173,7 @@ export interface FileRouteTypes {
     | '/pages'
     | '/search'
     | '/settings'
+    | '/about/$userId'
     | '/groups/$groupId'
     | '/profile/$userId'
     | '/groups'
@@ -177,6 +189,7 @@ export interface FileRouteTypes {
     | '/_authenticated/pages'
     | '/_authenticated/search'
     | '/_authenticated/settings'
+    | '/_authenticated/about/$userId'
     | '/_authenticated/groups/$groupId'
     | '/_authenticated/profile/$userId'
     | '/_authenticated/groups/'
@@ -260,6 +273,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSettingsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/about/$userId': {
+      id: '/_authenticated/about/$userId'
+      path: '/about/$userId'
+      fullPath: '/about/$userId'
+      preLoaderRoute: typeof AuthenticatedAboutUserIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/groups/': {
       id: '/_authenticated/groups/'
       path: '/groups'
@@ -292,6 +312,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedPagesRoute: typeof AuthenticatedPagesRoute
   AuthenticatedSearchRoute: typeof AuthenticatedSearchRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
+  AuthenticatedAboutUserIdRoute: typeof AuthenticatedAboutUserIdRoute
   AuthenticatedGroupsGroupIdRoute: typeof AuthenticatedGroupsGroupIdRoute
   AuthenticatedProfileUserIdRoute: typeof AuthenticatedProfileUserIdRoute
   AuthenticatedGroupsIndexRoute: typeof AuthenticatedGroupsIndexRoute
@@ -305,6 +326,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedPagesRoute: AuthenticatedPagesRoute,
   AuthenticatedSearchRoute: AuthenticatedSearchRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
+  AuthenticatedAboutUserIdRoute: AuthenticatedAboutUserIdRoute,
   AuthenticatedGroupsGroupIdRoute: AuthenticatedGroupsGroupIdRoute,
   AuthenticatedProfileUserIdRoute: AuthenticatedProfileUserIdRoute,
   AuthenticatedGroupsIndexRoute: AuthenticatedGroupsIndexRoute,
