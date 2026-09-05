@@ -93,10 +93,12 @@ export function AppShell({
             />
           </form>
 
+          <NotificationBell userId={userId} unread={unreadNotes} />
+
           <Link
             to="/profile/$userId"
             params={{ userId }}
-            className="ml-auto sm:ml-0"
+            className="sm:ml-0"
             aria-label="Your profile"
           >
             <UserAvatar
@@ -106,6 +108,7 @@ export function AppShell({
             />
           </Link>
           <HamburgerMenu me={me} onSignOut={signOut} />
+
         </div>
       </header>
 
