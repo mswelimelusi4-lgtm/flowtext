@@ -98,7 +98,7 @@ export function StoriesTray({ userId }: { userId: string }) {
 
   const groups = tray.data ?? [];
   const mineIndex = groups.findIndex((group) => group.author.id === userId);
-  const hasMine = mineIndex >= 0;
+  const mine = mineIndex >= 0 ? groups[mineIndex] : null;
   const others = groups.filter((group) => group.author.id !== userId);
 
 
@@ -137,9 +137,9 @@ export function StoriesTray({ userId }: { userId: string }) {
         </button>
 
         {/* Your posted story sits right next to the posting tile */}
-        {hasMine && (
+        {mine && (
           <StoryCard
-            group={groups[mineIndex]}
+            group={mine}
             seen={false}
             onOpen={() => setViewing({ group: mineIndex, story: 0 })}
             label="Your Story"
@@ -152,7 +152,7 @@ export function StoriesTray({ userId }: { userId: string }) {
             group={group}
             seen={group.seen}
             onOpen={() => setViewing({ group: groups.indexOf(group), story: group.firstUnseen })}
-            label={group.author.display_name.split(" ")[0]}
+            label={group.author.display_name.split(" ")[0] ?? "Story"}
           />
         ))}
 
