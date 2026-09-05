@@ -101,12 +101,7 @@ export function AppShell({
               className="size-9 ring-1 ring-ink/10"
             />
           </Link>
-          <button
-            onClick={signOut}
-            className="font-display hidden text-xs font-semibold text-ink-soft hover:text-clay-deep sm:block"
-          >
-            Sign out
-          </button>
+          <HamburgerMenu me={me} onSignOut={signOut} />
         </div>
       </header>
 
