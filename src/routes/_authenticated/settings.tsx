@@ -37,6 +37,15 @@ function SettingsPage() {
     location: "",
     work: "",
     education: "",
+    current_city: "",
+    hometown: "",
+    relationship_status: "",
+    partner_name: "",
+    website: "",
+    interests: "",
+    favorite_quotes: "",
+    about_extra: "",
+    share_avatar_updates: true,
     avatar_url: "" as string | null,
     cover_url: "" as string | null,
   });
@@ -49,6 +58,15 @@ function SettingsPage() {
       location: profile.data.location ?? "",
       work: profile.data.work ?? "",
       education: profile.data.education ?? "",
+      current_city: profile.data.current_city ?? "",
+      hometown: profile.data.hometown ?? "",
+      relationship_status: profile.data.relationship_status ?? "",
+      partner_name: profile.data.partner_name ?? "",
+      website: profile.data.website ?? "",
+      interests: profile.data.interests ?? "",
+      favorite_quotes: profile.data.favorite_quotes ?? "",
+      about_extra: profile.data.about_extra ?? "",
+      share_avatar_updates: profile.data.share_avatar_updates,
       avatar_url: profile.data.avatar_url,
       cover_url: profile.data.cover_url,
     });
@@ -62,6 +80,15 @@ function SettingsPage() {
         location: form.location.trim() || null,
         work: form.work.trim() || null,
         education: form.education.trim() || null,
+        current_city: form.current_city.trim() || null,
+        hometown: form.hometown.trim() || null,
+        relationship_status: form.relationship_status.trim() || null,
+        partner_name: form.partner_name.trim() || null,
+        website: form.website.trim() || null,
+        interests: form.interests.trim() || null,
+        favorite_quotes: form.favorite_quotes.trim() || null,
+        about_extra: form.about_extra.trim() || null,
+        share_avatar_updates: form.share_avatar_updates,
         avatar_url: form.avatar_url,
         cover_url: form.cover_url,
       }),
@@ -72,6 +99,7 @@ function SettingsPage() {
     },
     onError: (error: Error) => toast.error(error.message),
   });
+
 
   async function pick(kind: "avatar" | "cover", files: FileList | null) {
     const file = files?.[0];
