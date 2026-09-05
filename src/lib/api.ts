@@ -10,6 +10,22 @@ export type Profile = {
   work: string | null;
   education: string | null;
   created_at: string;
+  current_city: string | null;
+  hometown: string | null;
+  relationship_status: string | null;
+  partner_name: string | null;
+  website: string | null;
+  interests: string | null;
+  favorite_quotes: string | null;
+  about_extra: string | null;
+  share_avatar_updates: boolean;
+  deactivated_at: string | null;
+  default_post_visibility: "public" | "friends" | "private";
+  friends_list_visibility: "public" | "friends" | "private";
+  friend_request_scope: "everyone" | "friends_of_friends";
+  lookup_by_email: boolean;
+  lookup_by_phone: boolean;
+  two_factor_enabled: boolean;
 };
 
 export type Post = {
