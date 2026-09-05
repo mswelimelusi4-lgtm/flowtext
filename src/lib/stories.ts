@@ -57,7 +57,7 @@ export const STORY_BACKGROUNDS = [
   "#141414",
 ];
 
-export const STORY_TEXT_COLORS = ["#ffffff", "#111111", "#ffd166", "#8be9c6", "#ffb3c1"];
+export const STORY_TEXT_COLORS = ["#ffffff", "#111111", "#ffd166", "#e9dcc6", "#ffb3c1"];
 
 export const STORY_STICKERS = [
   "😀","😍","😂","🥳","😎","🤩","🥰","😭","🔥","💯","✨","🌈","❤️","💙","💚","⭐","☀️","🌙","🎉","🎂","🍕","☕","⚽","🎧","📸","🚀","🌍","🏆","💡","🙌","👏","🤝",
