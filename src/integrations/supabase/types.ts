@@ -589,14 +589,8 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      is_thread_creator: {
-        Args: { tid: string; uid: string }
-        Returns: boolean
-      }
-      is_thread_participant: {
-        Args: { tid: string; uid: string }
-        Returns: boolean
-      }
+      in_thread: { Args: { tid: string }; Returns: boolean }
+      owns_thread: { Args: { tid: string }; Returns: boolean }
     }
     Enums: {
       [_ in never]: never
