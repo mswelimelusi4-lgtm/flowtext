@@ -56,7 +56,7 @@ function AuthPage() {
             return;
           }
         }
-        navigate({ to: "/feed" });
+        navigate({ to: "/" });
         return;
       }
       const { error } = await supabase.auth.signInWithPassword({ email, password });
