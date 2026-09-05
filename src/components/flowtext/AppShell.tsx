@@ -184,7 +184,13 @@ export function AppShell({
   );
 }
 
-function HamburgerMenu({ me, onSignOut }: { me?: Profile | null; onSignOut: () => void }) {
+function HamburgerMenu({
+  me,
+  onSignOut,
+}: {
+  me: Profile | null | undefined;
+  onSignOut: () => void;
+}) {
   const [open, setOpen] = useState(false);
   const [privacyOpen, setPrivacyOpen] = useState(false);
   const [dark, setDark] = useState(() =>
