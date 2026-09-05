@@ -44,9 +44,19 @@ export function AppShell({
   const { data: me } = useQuery({ queryKey: ["profile", userId], queryFn: () => getProfile(userId) });
   const { data: unreadNotes = 0 } = useQuery({
     queryKey: ["unread-notifications", userId],
-    queryFn: () => unreadNotificationCount(userId),
-    refetchInterval: 30000,
+    queryFn: () => unreadNotificationsCount(userId),
+    refetchInterval: 60000,
   });
+
+  useNotificationsRealtime(userId, () => {
+    queryClient.invalidateQueries({ queryKey: ["unread-notifications", userId] });
+    queryClient.invalidateQueries({ queryKey: ["notifications", userId] });
+  });
+
+  useEffect(() => {
+    void ensureBirthdayReminders();
+  }, [userId]);
+
   const { data: threads = [] } = useQuery({
     queryKey: ["inbox", userId],
     queryFn: () => fetchInbox(userId),
