@@ -4,7 +4,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { AppShell, EmptyNote, RailCard } from "@/components/flowtext/AppShell";
 import { UserAvatar } from "@/components/flowtext/UserAvatar";
-import { getProfile, searchAll, updateProfile } from "@/lib/api";
+import { getProfile, globalSearch, updateProfile } from "@/lib/api";
 import { uploadMedia } from "@/lib/media";
 import {
   addExperience,
@@ -907,7 +907,7 @@ function FamilyForm({
   const [relationship, setRelationship] = useState("Sibling");
   const results = useQuery({
     queryKey: ["family-search", term],
-    queryFn: () => searchAll(term),
+    queryFn: () => globalSearch(term),
     enabled: term.trim().length > 1,
   });
 
