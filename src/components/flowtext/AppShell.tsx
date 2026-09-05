@@ -1,10 +1,21 @@
-import { useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  Bell,
+  ChevronDown,
+  ChevronRight,
+  CircleHelp,
+  LogOut,
+  Menu,
+  Moon,
+  Settings,
+  Sun,
+} from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Wordmark } from "./Wordmark";
 import { UserAvatar } from "./UserAvatar";
-import { fetchThreads, getProfile, unreadNotificationCount } from "@/lib/api";
+import { fetchThreads, getProfile, unreadNotificationCount, type Profile } from "@/lib/api";
 import { cn } from "@/lib/utils";
 
 const NAV = [
