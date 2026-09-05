@@ -1249,6 +1249,14 @@ export type Database = {
       }
       ensure_birthday_reminders: { Args: never; Returns: undefined }
       in_thread: { Args: { tid: string }; Returns: boolean }
+      is_story_excluded: {
+        Args: { _story_id: string; _user_id: string }
+        Returns: boolean
+      }
+      owns_story: {
+        Args: { _story_id: string; _user_id: string }
+        Returns: boolean
+      }
       owns_thread: { Args: { tid: string }; Returns: boolean }
     }
     Enums: {
