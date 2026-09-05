@@ -1247,7 +1247,10 @@ export type Database = {
         }
         Returns: undefined
       }
-      ensure_birthday_reminders: { Args: never; Returns: undefined }
+      ensure_birthday_reminders: {
+        Args: { _for_user: string }
+        Returns: undefined
+      }
       in_thread: { Args: { tid: string }; Returns: boolean }
       owns_thread: { Args: { tid: string }; Returns: boolean }
     }

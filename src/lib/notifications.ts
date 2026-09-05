@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import type { Profile } from "@/lib/api";
+import { ensureBirthdayRemindersFn } from "@/lib/notification.functions";
 
 export type NotificationType =
   | "reaction"
@@ -149,7 +150,7 @@ export async function muteNotificationSource(
 }
 
 export async function ensureBirthdayReminders() {
-  await supabase.rpc("ensure_birthday_reminders");
+  await ensureBirthdayRemindersFn();
 }
 
 /* ---------- copy ---------- */
