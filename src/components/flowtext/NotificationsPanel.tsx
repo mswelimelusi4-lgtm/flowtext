@@ -109,9 +109,9 @@ export function NotificationsList({
 
     switch (group.type) {
       case "message":
-        if (group.target_id) navigate({ to: "/messages", search: { thread: group.target_id } });
-        else navigate({ to: "/messages" });
+        navigate({ to: "/messages", search: { thread: group.target_id ?? undefined } });
         return;
+
       case "friend_request":
         navigate({ to: "/friends" });
         return;
