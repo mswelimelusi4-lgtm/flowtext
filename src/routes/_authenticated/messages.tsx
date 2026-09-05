@@ -14,7 +14,7 @@ import {
 
 export const Route = createFileRoute("/_authenticated/messages")({
   validateSearch: (search: Record<string, unknown>) => ({
-    thread: typeof search.thread === "string" ? search.thread : undefined,
+    thread: typeof search["thread"] === "string" ? (search["thread"] as string) : undefined,
   }),
   head: () => ({
     meta: [
