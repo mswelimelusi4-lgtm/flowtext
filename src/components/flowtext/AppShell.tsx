@@ -209,6 +209,85 @@ export function AppShell({
   );
 }
 
+function NotificationBell({ userId, unread }: { userId: string; unread: number }) {
+  const [open, setOpen] = useState(false);
+  const wrapper = useRef<HTMLDivElement | null>(null);
+  const bouncing = useBellBounce(unread);
+
+  useEffect(() => {
+    if (!open) return;
+    function onPointer(event: PointerEvent) {
+      if (!wrapper.current?.contains(event.target as Node)) setOpen(false);
+    }
+    function onKey(event: KeyboardEvent) {
+      if (event.key === "Escape") setOpen(false);
+    }
+    document.addEventListener("pointerdown", onPointer);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("pointerdown", onPointer);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
+  return (
+    <div ref={wrapper} className="relative ml-auto sm:ml-0">
+      <button
+        onClick={() => setOpen((value) => !value)}
+        aria-label={`Notifications${unread > 0 ? ` (${unread} unread)` : ""}`}
+        aria-expanded={open}
+        className={cn(
+          "relative grid size-9 place-items-center rounded-full bg-bone-soft text-ink-soft ring-1 ring-ink/10 hover:text-ink",
+          bouncing && "animate-bounce",
+        )}
+      >
+        <Bell className="size-4" />
+        {unread > 0 && (
+          <span className="absolute -top-1 -right-1 grid min-w-4 place-items-center rounded-full bg-clay px-1 text-[9px] font-bold text-bone">
+            {unread > 9 ? "9+" : unread}
+          </span>
+        )}
+      </button>
+
+      {open && (
+        <>
+          {/* mobile: full screen */}
+          <div className="fixed inset-0 z-50 flex flex-col bg-bone p-4 sm:hidden">
+            <div className="flex items-center justify-between pb-2">
+              <h2 className="font-display text-lg font-semibold">Notifications</h2>
+              <button
+                onClick={() => setOpen(false)}
+                className="rounded-full bg-bone-soft px-3 py-1 text-[11px] font-semibold text-ink-soft"
+              >
+                Close
+              </button>
+            </div>
+            <div className="min-h-0 flex-1 overflow-hidden">
+              <NotificationsList userId={userId} onNavigate={() => setOpen(false)} />
+            </div>
+          </div>
+
+          {/* desktop: dropdown */}
+          <div className="absolute top-12 right-0 z-50 hidden w-[24rem] rounded-3xl bg-bone p-3 shadow-xl ring-1 ring-black/10 sm:block">
+            <div className="flex items-center justify-between px-1 pb-2">
+              <h2 className="font-display text-sm font-semibold">Notifications</h2>
+              <Link
+                to="/notifications"
+                onClick={() => setOpen(false)}
+                className="text-[11px] text-teal-deep hover:underline"
+              >
+                See all
+              </Link>
+            </div>
+            <NotificationsList userId={userId} compact onNavigate={() => setOpen(false)} />
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+
 function HamburgerMenu({
   me,
   onSignOut,
