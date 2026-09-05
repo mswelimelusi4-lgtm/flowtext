@@ -43,7 +43,7 @@ export function PostCard({
 }: {
   post: Post;
   userId: string;
-  dotTone?: "clay" | "teal" | "amber";
+  dotTone?: "clay" | "teal" | "amber" | undefined;
 }) {
   const queryClient = useQueryClient();
   const [showComments, setShowComments] = useState(false);
