@@ -57,13 +57,23 @@ export type PrivateInfo = {
   languages: string[];
 };
 
+export type DeliveryMethod = "push" | "email" | "none";
+
 export type NotificationPrefs = {
   user_id: string;
   on_comment: boolean;
   on_like: boolean;
   on_friend_request: boolean;
   on_message: boolean;
+  on_group_activity: boolean;
+  on_reminder: boolean;
+  delivery_like: DeliveryMethod;
+  delivery_comment: DeliveryMethod;
+  delivery_friend_request: DeliveryMethod;
+  delivery_message: DeliveryMethod;
+  delivery_group_activity: DeliveryMethod;
 };
+
 
 export type Device = {
   id: string;
@@ -247,15 +257,22 @@ export async function fetchNotificationPrefs(userId: string) {
     .eq("user_id", userId)
     .maybeSingle();
   done(error);
-  return (
-    (data as NotificationPrefs | null) ?? {
-      user_id: userId,
-      on_comment: true,
-      on_like: true,
-      on_friend_request: true,
-      on_message: true,
-    }
-  );
+  const fallback: NotificationPrefs = {
+    user_id: userId,
+    on_comment: true,
+    on_like: true,
+    on_friend_request: true,
+    on_message: true,
+    on_group_activity: true,
+    on_reminder: true,
+    delivery_like: "push",
+    delivery_comment: "push",
+    delivery_friend_request: "push",
+    delivery_message: "push",
+    delivery_group_activity: "push",
+  };
+  return (data as NotificationPrefs | null) ?? fallback;
+
 }
 
 export async function saveNotificationPrefs(userId: string, patch: Partial<NotificationPrefs>) {

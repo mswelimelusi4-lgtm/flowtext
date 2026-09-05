@@ -17,6 +17,7 @@ import { Route as AuthenticatedFeedRouteImport } from './routes/_authenticated/f
 import { Route as AuthenticatedFriendsRouteImport } from './routes/_authenticated/friends'
 import { Route as AuthenticatedHelpRouteImport } from './routes/_authenticated/help'
 import { Route as AuthenticatedMessagesRouteImport } from './routes/_authenticated/messages'
+import { Route as AuthenticatedNotificationSettingsRouteImport } from './routes/_authenticated/notification-settings'
 import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated/notifications'
 import { Route as AuthenticatedPagesRouteImport } from './routes/_authenticated/pages'
 import { Route as AuthenticatedSearchRouteImport } from './routes/_authenticated/search'
@@ -24,6 +25,7 @@ import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedAboutUserIdRouteImport } from './routes/_authenticated/about.$userId'
 import { Route as AuthenticatedGroupsIndexRouteImport } from './routes/_authenticated/groups.index'
 import { Route as AuthenticatedGroupsGroupIdRouteImport } from './routes/_authenticated/groups.$groupId'
+import { Route as AuthenticatedPostPostIdRouteImport } from './routes/_authenticated/post.$postId'
 import { Route as AuthenticatedProfileUserIdRouteImport } from './routes/_authenticated/profile.$userId'
 
 const IndexRoute = IndexRouteImport.update({
@@ -65,6 +67,12 @@ const AuthenticatedMessagesRoute = AuthenticatedMessagesRouteImport.update({
   path: '/messages',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedNotificationSettingsRoute =
+  AuthenticatedNotificationSettingsRouteImport.update({
+    id: '/notification-settings',
+    path: '/notification-settings',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedNotificationsRoute =
   AuthenticatedNotificationsRouteImport.update({
     id: '/notifications',
@@ -104,6 +112,11 @@ const AuthenticatedGroupsGroupIdRoute =
     path: '/groups/$groupId',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedPostPostIdRoute = AuthenticatedPostPostIdRouteImport.update({
+  id: '/post/$postId',
+  path: '/post/$postId',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedProfileUserIdRoute =
   AuthenticatedProfileUserIdRouteImport.update({
     id: '/profile/$userId',
@@ -119,12 +132,14 @@ export interface FileRoutesByFullPath {
   '/friends': typeof AuthenticatedFriendsRoute
   '/help': typeof AuthenticatedHelpRoute
   '/messages': typeof AuthenticatedMessagesRoute
+  '/notification-settings': typeof AuthenticatedNotificationSettingsRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/pages': typeof AuthenticatedPagesRoute
   '/search': typeof AuthenticatedSearchRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/about/$userId': typeof AuthenticatedAboutUserIdRoute
   '/groups/$groupId': typeof AuthenticatedGroupsGroupIdRoute
+  '/post/$postId': typeof AuthenticatedPostPostIdRoute
   '/profile/$userId': typeof AuthenticatedProfileUserIdRoute
   '/groups/': typeof AuthenticatedGroupsIndexRoute
 }
@@ -136,12 +151,14 @@ export interface FileRoutesByTo {
   '/friends': typeof AuthenticatedFriendsRoute
   '/help': typeof AuthenticatedHelpRoute
   '/messages': typeof AuthenticatedMessagesRoute
+  '/notification-settings': typeof AuthenticatedNotificationSettingsRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/pages': typeof AuthenticatedPagesRoute
   '/search': typeof AuthenticatedSearchRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/about/$userId': typeof AuthenticatedAboutUserIdRoute
   '/groups/$groupId': typeof AuthenticatedGroupsGroupIdRoute
+  '/post/$postId': typeof AuthenticatedPostPostIdRoute
   '/profile/$userId': typeof AuthenticatedProfileUserIdRoute
   '/groups': typeof AuthenticatedGroupsIndexRoute
 }
@@ -155,12 +172,14 @@ export interface FileRoutesById {
   '/_authenticated/friends': typeof AuthenticatedFriendsRoute
   '/_authenticated/help': typeof AuthenticatedHelpRoute
   '/_authenticated/messages': typeof AuthenticatedMessagesRoute
+  '/_authenticated/notification-settings': typeof AuthenticatedNotificationSettingsRoute
   '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
   '/_authenticated/pages': typeof AuthenticatedPagesRoute
   '/_authenticated/search': typeof AuthenticatedSearchRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/about/$userId': typeof AuthenticatedAboutUserIdRoute
   '/_authenticated/groups/$groupId': typeof AuthenticatedGroupsGroupIdRoute
+  '/_authenticated/post/$postId': typeof AuthenticatedPostPostIdRoute
   '/_authenticated/profile/$userId': typeof AuthenticatedProfileUserIdRoute
   '/_authenticated/groups/': typeof AuthenticatedGroupsIndexRoute
 }
@@ -174,12 +193,14 @@ export interface FileRouteTypes {
     | '/friends'
     | '/help'
     | '/messages'
+    | '/notification-settings'
     | '/notifications'
     | '/pages'
     | '/search'
     | '/settings'
     | '/about/$userId'
     | '/groups/$groupId'
+    | '/post/$postId'
     | '/profile/$userId'
     | '/groups/'
   fileRoutesByTo: FileRoutesByTo
@@ -191,12 +212,14 @@ export interface FileRouteTypes {
     | '/friends'
     | '/help'
     | '/messages'
+    | '/notification-settings'
     | '/notifications'
     | '/pages'
     | '/search'
     | '/settings'
     | '/about/$userId'
     | '/groups/$groupId'
+    | '/post/$postId'
     | '/profile/$userId'
     | '/groups'
   id:
@@ -209,12 +232,14 @@ export interface FileRouteTypes {
     | '/_authenticated/friends'
     | '/_authenticated/help'
     | '/_authenticated/messages'
+    | '/_authenticated/notification-settings'
     | '/_authenticated/notifications'
     | '/_authenticated/pages'
     | '/_authenticated/search'
     | '/_authenticated/settings'
     | '/_authenticated/about/$userId'
     | '/_authenticated/groups/$groupId'
+    | '/_authenticated/post/$postId'
     | '/_authenticated/profile/$userId'
     | '/_authenticated/groups/'
   fileRoutesById: FileRoutesById
@@ -283,6 +308,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedMessagesRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/notification-settings': {
+      id: '/_authenticated/notification-settings'
+      path: '/notification-settings'
+      fullPath: '/notification-settings'
+      preLoaderRoute: typeof AuthenticatedNotificationSettingsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/notifications': {
       id: '/_authenticated/notifications'
       path: '/notifications'
@@ -332,6 +364,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedGroupsGroupIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/post/$postId': {
+      id: '/_authenticated/post/$postId'
+      path: '/post/$postId'
+      fullPath: '/post/$postId'
+      preLoaderRoute: typeof AuthenticatedPostPostIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/profile/$userId': {
       id: '/_authenticated/profile/$userId'
       path: '/profile/$userId'
@@ -348,12 +387,14 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedFriendsRoute: typeof AuthenticatedFriendsRoute
   AuthenticatedHelpRoute: typeof AuthenticatedHelpRoute
   AuthenticatedMessagesRoute: typeof AuthenticatedMessagesRoute
+  AuthenticatedNotificationSettingsRoute: typeof AuthenticatedNotificationSettingsRoute
   AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
   AuthenticatedPagesRoute: typeof AuthenticatedPagesRoute
   AuthenticatedSearchRoute: typeof AuthenticatedSearchRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedAboutUserIdRoute: typeof AuthenticatedAboutUserIdRoute
   AuthenticatedGroupsGroupIdRoute: typeof AuthenticatedGroupsGroupIdRoute
+  AuthenticatedPostPostIdRoute: typeof AuthenticatedPostPostIdRoute
   AuthenticatedProfileUserIdRoute: typeof AuthenticatedProfileUserIdRoute
   AuthenticatedGroupsIndexRoute: typeof AuthenticatedGroupsIndexRoute
 }
@@ -364,12 +405,15 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedFriendsRoute: AuthenticatedFriendsRoute,
   AuthenticatedHelpRoute: AuthenticatedHelpRoute,
   AuthenticatedMessagesRoute: AuthenticatedMessagesRoute,
+  AuthenticatedNotificationSettingsRoute:
+    AuthenticatedNotificationSettingsRoute,
   AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
   AuthenticatedPagesRoute: AuthenticatedPagesRoute,
   AuthenticatedSearchRoute: AuthenticatedSearchRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedAboutUserIdRoute: AuthenticatedAboutUserIdRoute,
   AuthenticatedGroupsGroupIdRoute: AuthenticatedGroupsGroupIdRoute,
+  AuthenticatedPostPostIdRoute: AuthenticatedPostPostIdRoute,
   AuthenticatedProfileUserIdRoute: AuthenticatedProfileUserIdRoute,
   AuthenticatedGroupsIndexRoute: AuthenticatedGroupsIndexRoute,
 }

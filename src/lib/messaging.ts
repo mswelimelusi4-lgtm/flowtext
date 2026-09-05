@@ -1,5 +1,5 @@
 import { supabase } from "@/integrations/supabase/client";
-import { friendIdsOf, notify, type Profile } from "@/lib/api";
+import { friendIdsOf, type Profile } from "@/lib/api";
 
 const PROFILE_LITE = "id, display_name, avatar_url";
 
@@ -232,24 +232,6 @@ export async function sendChatMessage(input: {
     kind: input.kind ?? "text",
   });
   if (error) throw new Error(error.message);
-
-  const { data: others } = await supabase
-    .from("thread_participants")
-    .select("user_id, muted_at")
-    .eq("thread_id", input.threadId);
-  await Promise.all(
-    (others ?? [])
-      .filter((p) => p.user_id !== input.senderId && !p.muted_at)
-      .map((p) =>
-        notify({
-          userId: p.user_id,
-          actorId: input.senderId,
-          type: "message",
-          targetId: input.threadId,
-          body: input.content.slice(0, 90),
-        }),
-      ),
-  );
 }
 
 export async function unsendMessage(messageId: string) {

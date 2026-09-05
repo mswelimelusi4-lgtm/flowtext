@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { createFileRoute, useRouteContext } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { clearThreadNotifications } from "@/lib/notifications";
 import { AppShell, EmptyNote, RailCard } from "@/components/flowtext/AppShell";
 import { ChatPanel, GroupInfoPanel, InboxPanel } from "@/components/flowtext/Messenger";
 import { uploadMedia } from "@/lib/media";
@@ -96,8 +97,14 @@ function MessagesPage() {
   useEffect(() => {
     if (!activeId) return;
     void markThreadRead(activeId, userId).then(refreshInbox);
+    // an open conversation shouldn't keep piling up bell notifications
+    void clearThreadNotifications(userId, activeId).then(() => {
+      queryClient.invalidateQueries({ queryKey: ["unread-notifications", userId] });
+      queryClient.invalidateQueries({ queryKey: ["notifications", userId] });
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeId, userId, messages.data?.length]);
+
 
   const run = (task: () => Promise<unknown>) =>
     task()

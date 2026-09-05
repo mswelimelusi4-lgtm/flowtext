@@ -419,31 +419,84 @@ export type Database = {
           },
         ]
       }
+      notification_mutes: {
+        Row: {
+          created_at: string
+          id: string
+          kind: string
+          target_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          kind: string
+          target_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          kind?: string
+          target_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notification_mutes_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       notification_prefs: {
         Row: {
           created_at: string
+          delivery_comment: string
+          delivery_friend_request: string
+          delivery_group_activity: string
+          delivery_like: string
+          delivery_message: string
           on_comment: boolean
           on_friend_request: boolean
+          on_group_activity: boolean
           on_like: boolean
           on_message: boolean
+          on_reminder: boolean
           updated_at: string
           user_id: string
         }
         Insert: {
           created_at?: string
+          delivery_comment?: string
+          delivery_friend_request?: string
+          delivery_group_activity?: string
+          delivery_like?: string
+          delivery_message?: string
           on_comment?: boolean
           on_friend_request?: boolean
+          on_group_activity?: boolean
           on_like?: boolean
           on_message?: boolean
+          on_reminder?: boolean
           updated_at?: string
           user_id: string
         }
         Update: {
           created_at?: string
+          delivery_comment?: string
+          delivery_friend_request?: string
+          delivery_group_activity?: string
+          delivery_like?: string
+          delivery_message?: string
           on_comment?: boolean
           on_friend_request?: boolean
+          on_group_activity?: boolean
           on_like?: boolean
           on_message?: boolean
+          on_reminder?: boolean
           updated_at?: string
           user_id?: string
         }
@@ -1058,6 +1111,19 @@ export type Database = {
     }
     Functions: {
       can_see_message: { Args: { mid: string }; Returns: boolean }
+      emit_notification: {
+        Args: {
+          _actor_id: string
+          _body: string
+          _mute_post?: string
+          _pref_column?: string
+          _target_id: string
+          _type: string
+          _user_id: string
+        }
+        Returns: undefined
+      }
+      ensure_birthday_reminders: { Args: never; Returns: undefined }
       in_thread: { Args: { tid: string }; Returns: boolean }
       owns_thread: { Args: { tid: string }; Returns: boolean }
     }
