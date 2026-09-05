@@ -141,7 +141,14 @@ export async function fetchGroupFeed(groupId: string, page: number) {
   return unwrap(data, error) as unknown as Post[];
 }
 
+export async function fetchPost(id: string) {
+  const { data, error } = await supabase.from("posts").select(POST_COLS).eq("id", id).maybeSingle();
+  if (error) throw new Error(error.message);
+  return (data as unknown as Post | null) ?? null;
+}
+
 export async function fetchUserPosts(authorId: string) {
+
   const { data, error } = await supabase
     .from("posts")
     .select(POST_COLS)
