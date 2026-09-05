@@ -37,6 +37,7 @@ export function StoryComposer({ userId, onClose }: { userId: string; onClose: ()
   const [audience, setAudience] = useState<Audience>("friends");
   const [excluded, setExcluded] = useState<string[]>([]);
   const [dragId, setDragId] = useState<string | null>(null);
+  const [shareError, setShareError] = useState<string | null>(null);
 
   const friends = useQuery({
     queryKey: ["story-friend-choices", userId],
@@ -126,6 +127,7 @@ export function StoryComposer({ userId, onClose }: { userId: string; onClose: ()
 
   const share = useMutation({
     mutationFn: async () => {
+      setShareError(null);
       if (!file && !caption.trim() && overlays.length === 0) {
         throw new Error("Add a photo, a video or some text first");
       }
@@ -164,7 +166,11 @@ export function StoryComposer({ userId, onClose }: { userId: string; onClose: ()
       toast.success("Shared to your story");
       onClose();
     },
-    onError: (error: Error) => toast.error(error.message),
+    onError: (error: Error) => {
+      const message = error.message || "Your story could not be shared. Please try again.";
+      setShareError(message);
+      toast.error(message);
+    },
   });
 
   return (
@@ -383,6 +389,11 @@ export function StoryComposer({ userId, onClose }: { userId: string; onClose: ()
         className="mx-auto w-full max-w-md pt-2"
         style={{ paddingBottom: "var(--osk-height, 0px)" }}
       >
+        {shareError && (
+          <p role="alert" className="mb-2 rounded-xl bg-clay px-3 py-2 text-center text-xs font-semibold text-bone">
+            {shareError}
+          </p>
+        )}
         <button
           type="button"
           id="story-share-button"

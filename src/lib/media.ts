@@ -26,7 +26,10 @@ export type UploadedMedia = { url: string; kind: "image" | "video" };
 
 export async function uploadMedia(file: File, userId: string): Promise<UploadedMedia> {
   const isImage = file.type.startsWith("image/");
-  const body = isImage ? await compressImage(file) : file;
+  // Some mobile browsers expose image formats that createImageBitmap cannot
+  // decode reliably. Compression is optional, so always fall back to the
+  // original file instead of blocking the story upload.
+  const body = isImage ? await compressImage(file).catch(() => file) : file;
   const ext = isImage && body !== file ? "webp" : (file.name.split(".").pop() ?? "bin");
   const path = `${userId}/${crypto.randomUUID()}.${ext}`;
 
