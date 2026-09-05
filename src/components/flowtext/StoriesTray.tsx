@@ -37,42 +37,47 @@ export function StoriesTray({ userId }: { userId: string }) {
   return (
     <section aria-label="Stories" className="-mx-1 mb-4">
       <div className="flex gap-3 overflow-x-auto px-1 pb-1">
-        {/* Your story */}
+        {/* Your story — always the creation entry point */}
         <button
-          onClick={() =>
-            hasMine ? setViewing({ group: mineIndex, story: 0 }) : setComposing(true)
-          }
+          onClick={() => setComposing(true)}
 
           className="flex w-16 shrink-0 flex-col items-center gap-1.5"
-          aria-label={hasMine ? "View your story" : "Create your story"}
+          aria-label="Create your story"
         >
           <span className="relative">
-            <span
-              className={cn(
-                "block rounded-full p-[2px]",
-                hasMine ? "bg-gradient-to-br from-clay via-amber to-teal" : "bg-ink/10",
-              )}
-            >
+            <span className="block rounded-full bg-ink/10 p-[2px]">
               <UserAvatar
                 name={me.data?.display_name ?? "You"}
                 src={me.data?.avatar_url ?? null}
                 className="size-14 ring-2 ring-bone"
               />
             </span>
-            <span
-              role="button"
-              aria-label="Add to your story"
-              onClick={(e) => {
-                e.stopPropagation();
-                setComposing(true);
-              }}
-              className="absolute -right-0.5 -bottom-0.5 grid size-5 cursor-pointer place-items-center rounded-full bg-teal text-bone ring-2 ring-bone"
-            >
+            <span className="absolute -right-0.5 -bottom-0.5 grid size-5 cursor-pointer place-items-center rounded-full bg-teal text-bone ring-2 ring-bone">
               <Plus className="size-3" />
             </span>
           </span>
           <span className="font-display w-full truncate text-[10px] font-semibold">Your Story</span>
         </button>
+
+        {/* Your posted story sits right next to the posting tile */}
+        {hasMine && (
+          <button
+            onClick={() => setViewing({ group: mineIndex, story: 0 })}
+            className="flex w-16 shrink-0 flex-col items-center gap-1.5"
+            aria-label="View your story"
+          >
+            <span className="block rounded-full bg-gradient-to-br from-clay via-amber to-teal p-[2px]">
+              <UserAvatar
+                name={me.data?.display_name ?? "You"}
+                src={me.data?.avatar_url ?? null}
+                className="size-14 ring-2 ring-bone"
+              />
+            </span>
+            <span className="font-display w-full truncate text-[10px] font-semibold">
+              {me.data?.display_name?.split(" ")[0] ?? "You"}
+            </span>
+          </button>
+        )}
 
         {others.map((group) => (
           <button
