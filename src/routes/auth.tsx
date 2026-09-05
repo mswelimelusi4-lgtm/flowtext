@@ -47,8 +47,14 @@ function AuthPage() {
         });
         if (error) throw error;
         if (!data.session) {
-          setSent(true);
-          return;
+          const { error: signInError } = await supabase.auth.signInWithPassword({
+            email,
+            password,
+          });
+          if (signInError) {
+            setSent(true);
+            return;
+          }
         }
         navigate({ to: "/feed" });
         return;
