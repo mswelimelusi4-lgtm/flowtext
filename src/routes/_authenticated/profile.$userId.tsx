@@ -124,7 +124,8 @@ function ProfilePage() {
         await createPost({
           authorId: myId,
           content: "Updated their profile picture.",
-          media: [{ url: uploaded.url, kind: "image" }],
+          mediaUrls: [uploaded.url],
+          mediaType: "image",
           visibility: profile.data.default_post_visibility ?? "public",
         });
         queryClient.invalidateQueries({ queryKey: ["feed"] });
