@@ -853,6 +853,7 @@ export type Database = {
           about_extra: string | null
           avatar_url: string | null
           bio: string | null
+          birthday: string | null
           cover_url: string | null
           created_at: string
           current_city: string | null
@@ -861,8 +862,11 @@ export type Database = {
           display_name: string
           education: string | null
           favorite_quotes: string | null
+          first_name: string | null
           friend_request_scope: string
           friends_list_visibility: string
+          gender: string | null
+          gender_custom: string | null
           hometown: string | null
           id: string
           interests: string | null
@@ -872,6 +876,7 @@ export type Database = {
           partner_name: string | null
           relationship_status: string | null
           share_avatar_updates: boolean
+          surname: string | null
           two_factor_enabled: boolean
           updated_at: string
           website: string | null
@@ -881,6 +886,7 @@ export type Database = {
           about_extra?: string | null
           avatar_url?: string | null
           bio?: string | null
+          birthday?: string | null
           cover_url?: string | null
           created_at?: string
           current_city?: string | null
@@ -889,8 +895,11 @@ export type Database = {
           display_name?: string
           education?: string | null
           favorite_quotes?: string | null
+          first_name?: string | null
           friend_request_scope?: string
           friends_list_visibility?: string
+          gender?: string | null
+          gender_custom?: string | null
           hometown?: string | null
           id: string
           interests?: string | null
@@ -900,6 +909,7 @@ export type Database = {
           partner_name?: string | null
           relationship_status?: string | null
           share_avatar_updates?: boolean
+          surname?: string | null
           two_factor_enabled?: boolean
           updated_at?: string
           website?: string | null
@@ -909,6 +919,7 @@ export type Database = {
           about_extra?: string | null
           avatar_url?: string | null
           bio?: string | null
+          birthday?: string | null
           cover_url?: string | null
           created_at?: string
           current_city?: string | null
@@ -917,8 +928,11 @@ export type Database = {
           display_name?: string
           education?: string | null
           favorite_quotes?: string | null
+          first_name?: string | null
           friend_request_scope?: string
           friends_list_visibility?: string
+          gender?: string | null
+          gender_custom?: string | null
           hometown?: string | null
           id?: string
           interests?: string | null
@@ -928,6 +942,7 @@ export type Database = {
           partner_name?: string | null
           relationship_status?: string | null
           share_avatar_updates?: boolean
+          surname?: string | null
           two_factor_enabled?: boolean
           updated_at?: string
           website?: string | null
