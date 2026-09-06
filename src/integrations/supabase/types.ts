@@ -873,12 +873,14 @@ export type Database = {
           location: string | null
           lookup_by_email: boolean
           lookup_by_phone: boolean
+          onboarding_completed_at: string | null
           partner_name: string | null
           relationship_status: string | null
           share_avatar_updates: boolean
           surname: string | null
           two_factor_enabled: boolean
           updated_at: string
+          username: string | null
           website: string | null
           work: string | null
         }
@@ -906,12 +908,14 @@ export type Database = {
           location?: string | null
           lookup_by_email?: boolean
           lookup_by_phone?: boolean
+          onboarding_completed_at?: string | null
           partner_name?: string | null
           relationship_status?: string | null
           share_avatar_updates?: boolean
           surname?: string | null
           two_factor_enabled?: boolean
           updated_at?: string
+          username?: string | null
           website?: string | null
           work?: string | null
         }
@@ -939,12 +943,14 @@ export type Database = {
           location?: string | null
           lookup_by_email?: boolean
           lookup_by_phone?: boolean
+          onboarding_completed_at?: string | null
           partner_name?: string | null
           relationship_status?: string | null
           share_avatar_updates?: boolean
           surname?: string | null
           two_factor_enabled?: boolean
           updated_at?: string
+          username?: string | null
           website?: string | null
           work?: string | null
         }
