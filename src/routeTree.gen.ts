@@ -22,6 +22,7 @@ import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authen
 import { Route as AuthenticatedPagesRouteImport } from './routes/_authenticated/pages'
 import { Route as AuthenticatedSearchRouteImport } from './routes/_authenticated/search'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
+import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 import { Route as AuthenticatedAboutUserIdRouteImport } from './routes/_authenticated/about.$userId'
 import { Route as AuthenticatedGroupsIndexRouteImport } from './routes/_authenticated/groups.index'
 import { Route as AuthenticatedGroupsGroupIdRouteImport } from './routes/_authenticated/groups.$groupId'
@@ -94,6 +95,11 @@ const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthCallbackRoute = AuthCallbackRouteImport.update({
+  id: '/callback',
+  path: '/callback',
+  getParentRoute: () => AuthRoute,
+} as any)
 const AuthenticatedAboutUserIdRoute =
   AuthenticatedAboutUserIdRouteImport.update({
     id: '/about/$userId',
@@ -126,7 +132,7 @@ const AuthenticatedProfileUserIdRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/auth': typeof AuthRoute
+  '/auth': typeof AuthRouteWithChildren
   '/account': typeof AuthenticatedAccountRoute
   '/feed': typeof AuthenticatedFeedRoute
   '/friends': typeof AuthenticatedFriendsRoute
@@ -137,6 +143,7 @@ export interface FileRoutesByFullPath {
   '/pages': typeof AuthenticatedPagesRoute
   '/search': typeof AuthenticatedSearchRoute
   '/settings': typeof AuthenticatedSettingsRoute
+  '/auth/callback': typeof AuthCallbackRoute
   '/about/$userId': typeof AuthenticatedAboutUserIdRoute
   '/groups/$groupId': typeof AuthenticatedGroupsGroupIdRoute
   '/post/$postId': typeof AuthenticatedPostPostIdRoute
@@ -145,7 +152,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/auth': typeof AuthRoute
+  '/auth': typeof AuthRouteWithChildren
   '/account': typeof AuthenticatedAccountRoute
   '/feed': typeof AuthenticatedFeedRoute
   '/friends': typeof AuthenticatedFriendsRoute
@@ -156,6 +163,7 @@ export interface FileRoutesByTo {
   '/pages': typeof AuthenticatedPagesRoute
   '/search': typeof AuthenticatedSearchRoute
   '/settings': typeof AuthenticatedSettingsRoute
+  '/auth/callback': typeof AuthCallbackRoute
   '/about/$userId': typeof AuthenticatedAboutUserIdRoute
   '/groups/$groupId': typeof AuthenticatedGroupsGroupIdRoute
   '/post/$postId': typeof AuthenticatedPostPostIdRoute
@@ -166,7 +174,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
-  '/auth': typeof AuthRoute
+  '/auth': typeof AuthRouteWithChildren
   '/_authenticated/account': typeof AuthenticatedAccountRoute
   '/_authenticated/feed': typeof AuthenticatedFeedRoute
   '/_authenticated/friends': typeof AuthenticatedFriendsRoute
@@ -177,6 +185,7 @@ export interface FileRoutesById {
   '/_authenticated/pages': typeof AuthenticatedPagesRoute
   '/_authenticated/search': typeof AuthenticatedSearchRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
+  '/auth/callback': typeof AuthCallbackRoute
   '/_authenticated/about/$userId': typeof AuthenticatedAboutUserIdRoute
   '/_authenticated/groups/$groupId': typeof AuthenticatedGroupsGroupIdRoute
   '/_authenticated/post/$postId': typeof AuthenticatedPostPostIdRoute
@@ -198,6 +207,7 @@ export interface FileRouteTypes {
     | '/pages'
     | '/search'
     | '/settings'
+    | '/auth/callback'
     | '/about/$userId'
     | '/groups/$groupId'
     | '/post/$postId'
@@ -217,6 +227,7 @@ export interface FileRouteTypes {
     | '/pages'
     | '/search'
     | '/settings'
+    | '/auth/callback'
     | '/about/$userId'
     | '/groups/$groupId'
     | '/post/$postId'
@@ -237,6 +248,7 @@ export interface FileRouteTypes {
     | '/_authenticated/pages'
     | '/_authenticated/search'
     | '/_authenticated/settings'
+    | '/auth/callback'
     | '/_authenticated/about/$userId'
     | '/_authenticated/groups/$groupId'
     | '/_authenticated/post/$postId'
@@ -247,7 +259,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
-  AuthRoute: typeof AuthRoute
+  AuthRoute: typeof AuthRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -343,6 +355,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSettingsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/auth/callback': {
+      id: '/auth/callback'
+      path: '/callback'
+      fullPath: '/auth/callback'
+      preLoaderRoute: typeof AuthCallbackRouteImport
+      parentRoute: typeof AuthRoute
+    }
     '/_authenticated/about/$userId': {
       id: '/_authenticated/about/$userId'
       path: '/about/$userId'
@@ -421,10 +440,20 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
+interface AuthRouteChildren {
+  AuthCallbackRoute: typeof AuthCallbackRoute
+}
+
+const AuthRouteChildren: AuthRouteChildren = {
+  AuthCallbackRoute: AuthCallbackRoute,
+}
+
+const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
-  AuthRoute: AuthRoute,
+  AuthRoute: AuthRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
