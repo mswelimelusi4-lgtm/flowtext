@@ -110,7 +110,7 @@ export function SignUpFlow({ onCancel }: { onCancel: () => void }) {
         email: email.trim(),
         password,
         options: {
-          emailRedirectTo: window.location.origin,
+          emailRedirectTo: `${window.location.origin}/auth/callback`,
           data: {
             full_name: `${firstName.trim()} ${surname.trim()}`.trim(),
             birthday,
@@ -463,7 +463,7 @@ function FindFriends({ onDone }: { onDone: () => void }) {
             key={person.id}
             className="flex items-center gap-3 rounded-xl bg-bone-soft px-3 py-2 ring-1 ring-ink/5"
           >
-            <UserAvatar name={person.display_name} url={person.avatar_url} size={36} />
+            <UserAvatar name={person.display_name} src={person.avatar_url} className="size-9" />
             <span className="flex-1 truncate text-sm font-semibold">{person.display_name}</span>
             <button
               type="button"
