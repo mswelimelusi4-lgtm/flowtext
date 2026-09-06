@@ -434,7 +434,15 @@ function FindFriends({ onDone }: { onDone: () => void }) {
       setMe(data.user.id);
       try {
         const suggestions = await fetchSuggestions(data.user.id);
-        if (active) setPeople(suggestions.slice(0, 6));
+        if (active) {
+          setPeople(
+            suggestions.slice(0, 6).map(({ profile }) => ({
+              id: profile.id,
+              display_name: profile.display_name,
+              avatar_url: profile.avatar_url,
+            })),
+          );
+        }
       } catch {
         /* suggestions are optional */
       }
