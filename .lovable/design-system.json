@@ -1,0 +1,407 @@
+{
+  "meta": {
+    "name": "Connect \u0026 Share",
+    "package": "@ws-5ng1b8pm60prtauixpfz/edfc0a99-a53b-46b6-b532-e7d88ec55b3a",
+    "version": "1.0.0",
+    "framework": "react",
+    "css_framework": "tailwind",
+    "starter_template": "custom_design_system_tailwind",
+    "theme_files": [
+      "src/styles.css"
+    ],
+    "source_type": "local",
+    "source_manifest": {
+      "#enrichment": "4ee6172563a8858112916bd1838876ac699c268c5fedca86b2ad0c76fd64c863",
+      ".gitignore": "6d9e901a692b46a83707c245fb03bc91",
+      ".lovable/project.json": "abcf7c8844e04346fe68da53414a1cc7",
+      ".prettierignore": "7279a476f196a2da5f7edd18db568dc6",
+      ".prettierrc": "185ef0234746ab738ac1ab6cec5e2bd9",
+      "AGENTS.md": "3da3c4cd15b686e79a248c25735d6aaf",
+      "README.md": "15ccc2c959c0bff2136261ce044c418f",
+      "bunfig.toml": "89115995d9de72fdfc894e16b1e75297",
+      "components.json": "30d3d035361ce807021f5c54620962e9",
+      "eslint.config.js": "345bdd57e188e0e4525edcd00e5003f5",
+      "package.json": "d9a7f6b1faaae2be90ad4e901f900a72",
+      "public/favicon.ico": "9f504444f85a5af2eef9264b02ae40be",
+      "public/robots.txt": "f9dff89adf98833e676de2205921996a",
+      "src/components/flowtext/AppShell.tsx": "e36587972cdf140d3b740f90eb5986a8",
+      "src/components/flowtext/Composer.tsx": "371ba561234df3cd204c19d1639ecad2",
+      "src/components/flowtext/MediaLightbox.tsx": "7c7097fefe5ef982c0e34490155681f3",
+      "src/components/flowtext/Messenger.tsx": "0d2323a6b3b85e77b81f125e32e01d47",
+      "src/components/flowtext/NotificationsPanel.tsx": "a4cf166fc884e91b97dbad22f635e0d5",
+      "src/components/flowtext/OnScreenKeyboard.tsx": "2a5a601952804a8add0682062b417343",
+      "src/components/flowtext/PostCard.tsx": "1c87046b77bfb491541ac06ef7a0e2ba",
+      "src/components/flowtext/SignUpFlow.tsx": "e0076a2ff72e0e9fd373ffabe5d56341",
+      "src/components/flowtext/StoriesTray.tsx": "fcdf606ace911791837562eb61604354",
+      "src/components/flowtext/StoryComposer.tsx": "408b98fb322a248990a435c56b2eece0",
+      "src/components/flowtext/StoryViewer.tsx": "efb2c00d760d5c0c003ed2932c366043",
+      "src/components/flowtext/UserAvatar.tsx": "490eb7f82b9d0556c8f41daf509548bc",
+      "src/components/flowtext/Wordmark.tsx": "6c2082d5e4b521d98dc525390de38710",
+      "src/components/ui/accordion.tsx": "55f9dda62b4e3913c9b23e5015a86aef",
+      "src/components/ui/alert-dialog.tsx": "96350e949e9b7b674545430a410ab89c",
+      "src/components/ui/alert.tsx": "f993d7e96b1e25ce50e68ed97e11d2a8",
+      "src/components/ui/aspect-ratio.tsx": "c5c364545e1b25a94e9e752cd67ad048",
+      "src/components/ui/avatar.tsx": "72989cd32f72c4122802540ef32525a5",
+      "src/components/ui/badge.tsx": "81cade001fc4260f9943e18dcd79449b",
+      "src/components/ui/breadcrumb.tsx": "bb9ac254f12662b20d5d50b84308bf3a",
+      "src/components/ui/button.tsx": "7d07d520f486b12bd47373d694ecd2ee",
+      "src/components/ui/calendar.tsx": "d849cc610e2683271f3f1c47d093cf30",
+      "src/components/ui/card.tsx": "d6c48ea36221b9cdc3576d305d12d5d5",
+      "src/components/ui/carousel.tsx": "e324c68ae00cd5aed49317638abd429a",
+      "src/components/ui/chart.tsx": "6a3baf94f2e89f1f97d4d7a28f3622d2",
+      "src/components/ui/checkbox.tsx": "f78aac270ca482c8c2cb907ef6260462",
+      "src/components/ui/collapsible.tsx": "767631bbc344945c236f185f4078d71d",
+      "src/components/ui/command.tsx": "014782599cc838b021ec68b07ad4ea02",
+      "src/components/ui/context-menu.tsx": "3ba8244ea23df34a1dba92f3a1230dad",
+      "src/components/ui/dialog.tsx": "ef4fe8e7de8675730afe3d633b260e09",
+      "src/components/ui/drawer.tsx": "8be333e8fd8e42576b1b5f72f07f4337",
+      "src/components/ui/dropdown-menu.tsx": "28d6e98d3c7811fc0514bfa69416f087",
+      "src/components/ui/form.tsx": "1b0aa6302b9017ea2a1307c22a1d2983",
+      "src/components/ui/hover-card.tsx": "1442794c5ca2a78d69e4e613b315ed3d",
+      "src/components/ui/input-otp.tsx": "65625f2f1c4d731a760aeed7b54459d1",
+      "src/components/ui/input.tsx": "1d4cc52a4cd8afb3e18e45bda942bb8a",
+      "src/components/ui/label.tsx": "7e35df4ca8edd0835efd97ca7937ef92",
+      "src/components/ui/menubar.tsx": "3c4121a1e78d3f424a7295381a8997d3",
+      "src/components/ui/navigation-menu.tsx": "e85351147a02b29577ff83d188b63c24",
+      "src/components/ui/pagination.tsx": "fac6cdbb4bbf78b273d85cd36d6cbb49",
+      "src/components/ui/popover.tsx": "f18aa1da2144f25ee60795c539c51bcd",
+      "src/components/ui/progress.tsx": "55c462e5c9dd678dcf2c0c510b014ac4",
+      "src/components/ui/radio-group.tsx": "0e1ace237a5da3197e3eb1e6683faba9",
+      "src/components/ui/resizable.tsx": "d9fcb9203c749fcab4e125a99bb12a86",
+      "src/components/ui/scroll-area.tsx": "87b65d3eb26f2b02ff35a7acea585ba5",
+      "src/components/ui/select.tsx": "31ea1bbd6671833b010b2e852c8a55d0",
+      "src/components/ui/separator.tsx": "433d163c4ffa00b59398a0c293198b5e",
+      "src/components/ui/sheet.tsx": "0221fbf97b69611b47fcbc10bb27669a",
+      "src/components/ui/sidebar.tsx": "83c1623eb50ebc370d7b1b84a542e369",
+      "src/components/ui/skeleton.tsx": "41b182e6e2fc3805960d41e767d4a972",
+      "src/components/ui/slider.tsx": "4752f1bfa26426988d325599e01c335b",
+      "src/components/ui/sonner.tsx": "97f59f60be3413196d095fcbf7383216",
+      "src/components/ui/switch.tsx": "82f5d8b0c59bb7ff305caa9f502e79ff",
+      "src/components/ui/table.tsx": "7cc889989d53894b659903c73aded96e",
+      "src/components/ui/tabs.tsx": "56e725558c2ce72c18243bf51717f385",
+      "src/components/ui/textarea.tsx": "c7aad96fb9545210d53135a96c76ed6b",
+      "src/components/ui/toggle-group.tsx": "ac26383acf721d116ca8e3ab5c5355d5",
+      "src/components/ui/toggle.tsx": "ee8c5adac74e7242b85b544db1a8fbad",
+      "src/components/ui/tooltip.tsx": "67d71db5a1ab935695d1def497f5b8a6",
+      "src/hooks/use-mobile.tsx": "c0a0bdd4638c391a1dd06ac82074e60b",
+      "src/integrations/lovable/index.ts": "e9cf6e6968dd0392b2222ee0745ecece",
+      "src/integrations/supabase/auth-attacher.ts": "dad043cda134d909e52de0346c16625e",
+      "src/integrations/supabase/auth-middleware.ts": "eabaf8c8ba32205717921ce5f255185e",
+      "src/integrations/supabase/client.server.ts": "23f838ab7633e0a97e695f3c500d91aa",
+      "src/integrations/supabase/client.ts": "8af43e12f1332b440278c7ea7e4cb1e8",
+      "src/integrations/supabase/cron-auth.ts": "6c04781ff98ada5977945fae55d39385",
+      "src/integrations/supabase/previewAuthStorage.ts": "bc45a76c9242c4b85d6d4345625c46e9",
+      "src/integrations/supabase/types.ts": "c542607612965407e026d50b8b41a403",
+      "src/lib/account.functions.ts": "f3fa7540e6c5d58baf4ca976e04da585",
+      "src/lib/api.ts": "67b2d37fc3501b2d449c34bf1959389c",
+      "src/lib/error-capture.ts": "f630d9686a9a989170f22eff4de7b30d",
+      "src/lib/error-page.ts": "8da0ddd7569bac2676b9a5c8edff8a36",
+      "src/lib/lovable-error-reporting.ts": "77368331b8ef6e6edcf1a29b24a52d39",
+      "src/lib/media.ts": "2ab4c1d4be201d2eb93300d302e6b8d4",
+      "src/lib/messaging.ts": "217cea1c50b83d831ce93ba0f1f13a62",
+      "src/lib/notification.functions.ts": "9ca331d2153e13991c114295038efbc0",
+      "src/lib/notifications.ts": "050eaa712e29425498f4238e4ab04c19",
+      "src/lib/profile.ts": "7f910ae78b66613a291fc743a4fd23b6",
+      "src/lib/session.ts": "e830f228ef9091692b51c907aa46fc07",
+      "src/lib/stories.ts": "9495ce5dcaa5c4240a95df27c21d5839",
+      "src/lib/usePresence.ts": "754e5b9d8f6ae0fb8b0b15823312c2d8",
+      "src/lib/utils.ts": "d9837f38cc05303254571985e3164050",
+      "src/routeTree.gen.ts": "5a7f520820b04bb48c83ae1e5439a5ff",
+      "src/router.tsx": "8f905e713b0eba7fa8148b7995a708c9",
+      "src/routes/README.md": "b3a2f259b66fd1a11f54b6d5ac83bf57",
+      "src/routes/__root.tsx": "b186847e0874ee36d31b562c0ce97abe",
+      "src/routes/_authenticated/about.$userId.tsx": "a3194e08490e8705670c73d0d308da56",
+      "src/routes/_authenticated/account.tsx": "db313872b6b676a1c9fc7a2adcc5e7af",
+      "src/routes/_authenticated/feed.tsx": "7b44f779e69e0ec10e31fd76c01dd54d",
+      "src/routes/_authenticated/friends.tsx": "5aef44400d9e18f3081bca2f253f6989",
+      "src/routes/_authenticated/groups.$groupId.tsx": "0cac92de266aad9adf5d9322b005653c",
+      "src/routes/_authenticated/groups.index.tsx": "6079499343dec6a008b076e253627bbb",
+      "src/routes/_authenticated/help.tsx": "d41e27044f60d5a6313d9edb9b195739",
+      "src/routes/_authenticated/messages.tsx": "71ca9b46214db44be9afd32d29d7b907",
+      "src/routes/_authenticated/notification-settings.tsx": "8dcea4ac059f49341ecef0c97074e1ee",
+      "src/routes/_authenticated/notifications.tsx": "d1b386efeb2a506049b9a9da4a2fc5ba",
+      "src/routes/_authenticated/onboarding.tsx": "e37c15c68051b7421004e39d844b47e2",
+      "src/routes/_authenticated/pages.tsx": "72c9df5d9b7548dbad47db5ffd26a144",
+      "src/routes/_authenticated/post.$postId.tsx": "f14cae458d98b6dc4d2e88bb0b9cc27d",
+      "src/routes/_authenticated/profile.$userId.tsx": "93cee394a08e00d6a4a4777b21298899",
+      "src/routes/_authenticated/route.tsx": "eee78bea3574e377e86fef3b283480cb",
+      "src/routes/_authenticated/search.tsx": "d957aa09c225fc0b4ca6ab8fce7f1a90",
+      "src/routes/_authenticated/settings.tsx": "bba44b4ee968a05406d299830841f127",
+      "src/routes/auth.callback.tsx": "1f24e2fcc6bb82d3ffdc9220e7f222b5",
+      "src/routes/auth.tsx": "6ff04320b786c3fa8093b85c3dab0cc4",
+      "src/routes/index.tsx": "22f3ef4e7966a7fe9476fef4ba4307a8",
+      "src/server.ts": "c7bbc49bb70e318af618d92775ee0f27",
+      "src/start.ts": "d77c1c12904be5077c6955d9b30071af",
+      "src/styles.css": "e347e3c3a323eec3ad3d9bd707f92f5c",
+      "supabase/config.toml": "fb0bce666434a7f25c460a69adcb5de1",
+      "supabase/migrations/20260905041326_f73d1bdb-722e-49bf-9560-d7dbd71d5748.sql": "ddd3b15af1deaee197e385c8ad4ae023",
+      "supabase/migrations/20260905041358_73d1682a-0380-4ad6-baf6-ae8b094b7d8a.sql": "abd8b061dd9a8560637a703f1335c826",
+      "supabase/migrations/20260905041437_e418fc84-061d-4fdc-9c95-c1d183b8fcf8.sql": "54d2e271b813562d7a1f4de6079bd0f5",
+      "supabase/migrations/20260905041452_11936ce6-ec4f-47ee-8bc6-6f2f10e17651.sql": "1f637bc78bc23a0c4aa44a8433ce540e",
+      "supabase/migrations/20260905045633_bca06bcd-752e-4093-ae58-e29c92d4e917.sql": "5e440a7b30aa970bf247bb8003f485e0",
+      "supabase/migrations/20260905051239_4b099705-18fc-4b18-aab2-76f675a55908.sql": "444dbfab2a4cb3af9785f00f5080e6bf",
+      "supabase/migrations/20260905051255_15e49cab-7753-4b3d-9411-96a27f983fa5.sql": "d1672a6797f61d9df503b51671f57148",
+      "supabase/migrations/20260905052056_3296fced-5c02-4020-896f-d913695ea533.sql": "4630618286f01ec18d27404ae3bcffe5",
+      "supabase/migrations/20260905052108_967a2b36-35b0-44fe-b292-57d3c143b234.sql": "c76b660178836391e715ba349e2c5c83",
+      "supabase/migrations/20260905052121_4bb838d6-b36f-47f0-a057-22000b85617d.sql": "f53865bbc364e3d49b16b7f039d72a16",
+      "supabase/migrations/20260905052151_f2eafa6e-fe1e-4f1f-b12b-9e6a0abc8437.sql": "1697bb91feb3476633e1e471c16c0f5b",
+      "supabase/migrations/20260905053024_944645f9-69e7-4875-b66a-97ebe347f679.sql": "bf36f199cb0c0bc709b66b25d2dc56d5",
+      "supabase/migrations/20260905053038_64d49209-3592-494e-a4a4-98ddd2021ecd.sql": "416d50d960036fe8a09f533a9bed35af",
+      "supabase/migrations/20260905054424_0222e889-ed2b-4ffa-8ef4-41fd8590424d.sql": "84d61169e3102bc937e945bd357e342e",
+      "supabase/migrations/20260905055859_ede36ff7-0ba2-4371-8678-97dc67f693e4.sql": "48c5bcf03f944ba55552aefd05636404",
+      "supabase/migrations/20260905055951_198609b2-3993-4b48-8fd8-702470aa9b37.sql": "487cff856fc81ca2ea6649b8fc9ed306",
+      "supabase/migrations/20260905061639_0a58b579-407f-467a-993f-951415305917.sql": "33768700fce792f8e5b6f140bbc639fd",
+      "supabase/migrations/20260905061654_325c1960-1e9b-4063-ab95-f90cbf983f89.sql": "65aaf1eeafea7a29d4439b8a37dbe7e6",
+      "supabase/migrations/20260905061745_dc641215-49f0-4ec5-801e-4fd8fd9852b6.sql": "b899b9d19f7589e9f394716b2a8ae5ff",
+      "supabase/migrations/20260905064538_212fad27-ea2b-4693-b4b9-7b5902204574.sql": "e801136d3cc49b98edcabe5193e9ce07",
+      "supabase/migrations/20260906074524_1a8166cc-8fa7-4a69-99d9-5a412d55aef7.sql": "ce8bd9918449bba8b0e7f67a936cc858",
+      "tsconfig.json": "e84e5c7fe88e3c5a4d54f55a816d42c1",
+      "vite.config.ts": "d67e8217e5f31b87c276b6357c9aedcf"
+    },
+    "pipeline_version": 8
+  },
+  "tokens": {
+    "color": [
+      {
+        "name": "--bone",
+        "raw": "oklch(0.9626 0.0131 82.4)",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--bone-soft",
+        "raw": "oklch(0.9302 0.0218 83.26)",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--bone-deep",
+        "raw": "oklch(0.8974 0.0277 83.53)",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--ink",
+        "raw": "oklch(0.2888 0.0163 285.33)",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--ink-soft",
+        "raw": "oklch(0.4622 0.0201 304.44)",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--clay",
+        "raw": "oklch(0.5904 0.1422 38.47)",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--clay-deep",
+        "raw": "oklch(0.4925 0.1242 38.58)",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--teal",
+        "raw": "oklch(0.442 0.0664 180.89)",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--teal-deep",
+        "raw": "oklch(0.3393 0.0491 182.85)",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--amber",
+        "raw": "oklch(0.7489 0.1454 77.46)",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--card",
+        "raw": "oklch(0.9825 0.008 82.4)",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--popover",
+        "raw": "oklch(0.9825 0.008 82.4)",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--destructive",
+        "raw": "oklch(0.55 0.19 27)",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--border",
+        "raw": "oklch(0.2888 0.0163 285.33 / 12%)",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--input",
+        "raw": "oklch(0.2888 0.0163 285.33 / 14%)",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--sidebar-border",
+        "raw": "oklch(0.2888 0.0163 285.33 / 12%)",
+        "source": "src/styles.css"
+      }
+    ],
+    "typography": [
+      {
+        "name": "--font-display-family",
+        "raw": "\"Space Grotesk\", ui-sans-serif, system-ui, sans-serif",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--font-body-family",
+        "raw": "\"Space Mono\", ui-monospace, SFMono-Regular, monospace",
+        "source": "src/styles.css"
+      }
+    ],
+    "radius": [
+      {
+        "name": "--radius-sm",
+        "raw": "calc(var(--radius) - 4px)",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--radius-md",
+        "raw": "calc(var(--radius) - 2px)",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--radius-xl",
+        "raw": "calc(var(--radius) + 4px)",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--radius-2xl",
+        "raw": "calc(var(--radius) + 8px)",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--radius-3xl",
+        "raw": "calc(var(--radius) + 12px)",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--radius-4xl",
+        "raw": "calc(var(--radius) + 16px)",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--radius",
+        "raw": "0.75rem",
+        "source": "src/styles.css"
+      }
+    ],
+    "shadow": [
+      {
+        "name": "--shadow-pop",
+        "raw": "0 6px 14px -6px oklch(0.2888 0.0163 285.33 / 35%)",
+        "source": "src/styles.css"
+      }
+    ],
+    "other": [
+      {
+        "name": "--gradient-chrome",
+        "raw": "linear-gradient(\n    180deg,\n    oklch(0.2888 0.0163 285.33) 0%,\n    oklch(0.442 0.0664 180.89) 40%,\n    oklch(0.7489 0.1454 77.46) 60%,\n    oklch(0.5904 0.1422 38.47) 100%\n  )",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--gradient-chrome-bar",
+        "raw": "linear-gradient(\n    90deg,\n    oklch(0.442 0.0664 180.89),\n    oklch(0.7489 0.1454 77.46) 55%,\n    oklch(0.5904 0.1422 38.47)\n  )",
+        "source": "src/styles.css"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "AppShell",
+      "file": "src/components/flowtext/AppShell",
+      "import_path": ""
+    },
+    {
+      "name": "RailCard",
+      "file": "src/components/flowtext/AppShell",
+      "import_path": ""
+    },
+    {
+      "name": "EmptyNote",
+      "file": "src/components/flowtext/AppShell",
+      "import_path": ""
+    },
+    {
+      "name": "Composer",
+      "file": "src/components/flowtext/Composer",
+      "import_path": ""
+    },
+    {
+      "name": "MediaLightbox",
+      "file": "src/components/flowtext/MediaLightbox",
+      "import_path": ""
+    },
+    {
+      "name": "InboxPanel",
+      "file": "src/components/flowtext/Messenger",
+      "import_path": ""
+    },
+    {
+      "name": "ChatPanel",
+      "file": "src/components/flowtext/Messenger",
+      "import_path": ""
+    },
+    {
+      "name": "GroupInfoPanel",
+      "file": "src/components/flowtext/Messenger",
+      "import_path": ""
+    },
+    {
+      "name": "NotificationsList",
+      "file": "src/components/flowtext/NotificationsPanel",
+      "import_path": ""
+    },
+    {
+      "name": "OnScreenKeyboard",
+      "file": "src/components/flowtext/OnScreenKeyboard",
+      "import_path": ""
+    },
+    {
+      "name": "PostCard",
+      "file": "src/components/flowtext/PostCard",
+      "import_path": ""
+    },
+    {
+      "name": "SignUpFlow",
+      "file": "src/components/flowtext/SignUpFlow",
+      "import_path": ""
+    },
+    {
+      "name": "StoriesTray",
+      "file": "src/components/flowtext/StoriesTray",
+      "import_path": ""
+    },
+    {
+      "name": "StoryComposer",
+      "file": "src/components/flowtext/StoryComposer",
+      "import_path": ""
+    },
+    {
+      "name": "StoryViewer",
+      "file": "src/components/flowtext/StoryViewer",
+      "import_path": ""
+    },
+    {
+      "name": "UserAvatar",
+      "file": "src/components/flowtext/UserAvatar",
+      "import_path": ""
+    },
+    {
+      "name": "Wordmark",
+      "file": "src/components/flowtext/Wordmark",
+      "import_path": ""
+    },
+    {
+      "name": "Constants",
+      "file": "src/integrations/supabase/types",
+      "import_path": ""
+    }
+  ]
+}
